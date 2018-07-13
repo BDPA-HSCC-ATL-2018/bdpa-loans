@@ -1,6 +1,6 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . "/loan_app/db.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/db.php";
 
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : null;
 
@@ -9,12 +9,12 @@ $options = array (
     'login' => 'login',
     'loanapp' => 'loanapp'
 );
-    
+
 if (array_key_exists($action, $options)) {
     $function = $options[$action];
     call_user_func($function);
 } else {
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/loan_app/forms/signup.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/signup.php";
 }
 
 //Signup Form
@@ -38,57 +38,57 @@ function signup() {
     $comptele = $_REQUEST['comptele'];
     $cust_type = "old";
     $cust_yr_salary = $_REQUEST['yearlysalary'];
-    
+
     $sql = <<<SQL
         INSERT INTO customer(cust_Username, cust_PW, cust_LastName, cust_FirstName, cust_Address, cust_City, cust_State, cust_Zip, cust_Telephone, cust_CellPhone, cust_Company, cust_Co_Address, cust_Co_City, cust_Co_State cust_Co_Zip, cust_Co_Telephone, cust_Type, cust_yr_Salary)
         VALUES('$username', '$pw','$lname', '$fname', '$address', '$city', '$state', '$zip', '$telephone', '$cellphone', '$company', '$compaddress', '$compcity', '$compstate', '$compzip');
 SQL;
-    
+
     $result = $dbh->query($sql);
-    
+
     if ($result) {
-        include_once $_SERVER['DOCUMENT_ROOT'] . "/loan_app/forms/loanapp_f.php";
+        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/loanapp_f.php";
     } else {
-//        include_once $_SERVER['DOCUMENT_ROOT'] . "/loan_app/forms/signup.php";
-        
+//        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/signup.php";
+
     }
 }
 
 //Login Function
 function login() {
     global $dbh;
-    
+
     $username = $_REQUEST['username'];
     $pw = $_REQUEST['pw'];
-    
+
     $sql = <<<SQL
         SELECT * FROM customer WHERE cust_Username = "$username";
 SQL;
-    
+
     $result = $dbh->query($sql);
-    
+
     while ($row = $result->fetch_assoc()) {
         $hashed_pw = $row['cust_PW'];
     }
-    
+
     if (password_verify($pw, $hashed_pw)) {
-        include_once $_SERVER['DOCUMENT_ROOT'] . "/loan_app/dashboard.php";
+        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashboard.php";
     } else {
-        include_once __DIR__ . '/loan_app';
+        include_once __DIR__ . '/bdpa-loans';
     }
 }
 
 //Loan App Function
 function loanapp() {
     global $dbh;
-    
+
     //Get needed info from cust. table
     $cust_sql = <<<SQL
         SELECT cust_Id, cust_yr_Salary, cust_type FROM customer;
 SQL;
-    
+
     $cust_result = $dbh->query($cust_sql);
-    
+
     if ($cust_result) {
         while ($row = $result->fetch_assoc()) {
             $salary = $row['cust_yr_Salary'];
@@ -107,7 +107,7 @@ SQL;
         $loantype = $_REQUEST['loantype'];
         $amount = $_REQUEST['amount'];
         $loanterm = $_REQUEST['loanterm'];
-        
+
         switch ($loantype) {
             case 'A':
                 if (!($amount >= (.50 * $salary)))
@@ -165,19 +165,19 @@ SQL;
                     }
                 break;
         }
-        
+
         $math_sql = <<<SQL
         INSERT INTO loanapp(L_CustId, L_LoanType, Amt, MonthlyPayment, Ref1_Firstname, Ref1_Lastname, Ref1_Telephone, Ref2_Firstname, Ref2_Lastname, Ref2_Telephone, L_Date, L_Term, L_Interest)
     VALUES($cust_id,$loantype,$amount,'$monthly_payment','$loanterm','$Ref1_Firstname','$Ref1_Lastname','$Ref1_telephone','$Ref2_Firstname','$Ref2_Lastname','$Ref2_telephone','$L_Date','$L_Term','$L_Int')
 SQL;
         $result = $dbh->query($math_sql);
-        
+
         if ($result) {
-            include_once $_SERVER['DOCUMENT_ROOT'] . "/loan_app/dashbaord.php";
+            include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashbaord.php";
         } else {
-            include_once $_SERVER['DOCUMENT_ROOT'] . "/loan_app/forms/signup.php";
+            include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/signup.php";
         }
     }
-    
+
 }
 ?>
