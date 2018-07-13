@@ -7,10 +7,10 @@ include_once '../web-assets/tpl/app_nav.php';
             <div class="card-header">Sign Up</div>
             <div class="card-body">
                 <form action="/bdpa-loans/index.php?action=signup" method="post">
-                    <!--Username-->
+                    <!--Email-->
                     <div class="form-group row">
-                        <label for="username" class="col-sm-3">Username</label>
-                        <input type="text" class="form-control col-sm-9" name="username" required>
+                        <label for="email" class="col-sm-3">Email</label>
+                        <input type="email" class="form-control col-sm-9" name="email" required>
                     </div>
                     <!--Password-->
                     <div class="form-group row">
@@ -61,31 +61,6 @@ include_once '../web-assets/tpl/app_nav.php';
                     <div class="form-group row">
                         <label for="username" class="col-sm-3">Company</label>
                         <input type="text" class="form-control col-sm-9" name="company" required>
-                    </div>
-                    <!--Comp. Address-->
-                    <div class="form-group row">
-                        <label for="username" class="col-sm-3">Company Address</label>
-                        <input type="text" class="form-control col-sm-9" name="compaddress" required>
-                    </div>
-                    <!--Comp. City-->
-                    <div class="form-group row">
-                        <label for="username" class="col-sm-3">Company City</label>
-                        <input type="text" class="form-control col-sm-9" name="compcity" required>
-                    </div>
-                    <!--Comp. State-->
-                    <div class="form-group row">
-                        <label for="username" class="col-sm-3">Company State</label>
-                        <input type="text" class="form-control col-sm-9" name="compstate" required>
-                    </div>
-                    <!--Comp. Zip-->
-                    <div class="form-group row">
-                        <label for="username" class="col-sm-3">Company Zip Code</label>
-                        <input type="text" class="form-control col-sm-9" name="compzip" required>
-                    </div>
-                    <!--Company Telephone-->
-                    <div class="form-group row">
-                        <label for="username" class="col-sm-3">Company Telephone</label>
-                        <input type="text" class="form-control col-sm-9" name="comptele" required>
                     </div>
                     <!--Yearly Salary-->
                     <div class="form-group row">

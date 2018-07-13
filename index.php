@@ -20,10 +20,10 @@ if (array_key_exists($action, $options)) {
 //Signup Form
 function signup() {
     global $dbh;
-    $username = $_REQUEST['username'];
+    $email = $_REQUEST['email'];
     $pw = $_REQUEST['pw']; $pw = password_hash($pw, PASSWORD_DEFAULT);
-    $lname = $_REQUEST['lname'];
     $fname = $_REQUEST['fname'];
+    $lname = $_REQUEST['lname'];
     $address = $_REQUEST['address'];
     $city = $_REQUEST['city'];
     $state = $_REQUEST['state'];
@@ -31,17 +31,11 @@ function signup() {
     $telephone = $_REQUEST['telephone'];
     $cellphone = $_REQUEST['cellphone'];
     $company = $_REQUEST['company'];
-    $compaddress = $_REQUEST['compaddress'];
-    $compcity = $_REQUEST['compcity'];
-    $compstate = $_REQUEST['compstate'];
-    $compzip = $_REQUEST['compzip'];
-    $comptele = $_REQUEST['comptele'];
-    $cust_type = "old";
     $cust_yr_salary = $_REQUEST['yearlysalary'];
 
     $sql = <<<SQL
-        INSERT INTO customer(cust_Username, cust_PW, cust_LastName, cust_FirstName, cust_Address, cust_City, cust_State, cust_Zip, cust_Telephone, cust_CellPhone, cust_Company, cust_Co_Address, cust_Co_City, cust_Co_State cust_Co_Zip, cust_Co_Telephone, cust_Type, cust_yr_Salary)
-        VALUES('$username', '$pw','$lname', '$fname', '$address', '$city', '$state', '$zip', '$telephone', '$cellphone', '$company', '$compaddress', '$compcity', '$compstate', '$compzip');
+        INSERT INTO customers(email_id, login_pw, first_name, last_name, address_line_one, city_name, state_cd, postal_cd, pri_phone, alt_phone, employer_name, annual_income)
+        VALUES("$email", "$pw","$fname", "$lname", "$address", "$city", "$state", "$zip", "$telephone", "$cellphone", "$company", $cust_yr_salary);
 SQL;
 
     $result = $dbh->query($sql);
@@ -49,8 +43,7 @@ SQL;
     if ($result) {
         include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/loanapp_f.php";
     } else {
-//        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/signup.php";
-
+       echo ("It didn't work.");
     }
 }
 
@@ -58,11 +51,11 @@ SQL;
 function login() {
     global $dbh;
 
-    $username = $_REQUEST['username'];
+    $email = $_REQUEST['email'];
     $pw = $_REQUEST['pw'];
 
     $sql = <<<SQL
-        SELECT * FROM customer WHERE cust_Username = "$username";
+        SELECT * FROM customer WHERE cust_email = "$email";
 SQL;
 
     $result = $dbh->query($sql);
