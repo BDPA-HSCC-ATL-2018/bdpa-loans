@@ -1,10 +1,11 @@
 <?php
 $page_title = "Sign Up";
-include_once 'web-assets/tpl/app_header.php';
-include_once 'web-assets/tpl/app_nav.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_header.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
 ?>
-<div class="alert alert-success my-4 mx-4" role="alert">Already have an account? <a href="/bdpa-loans/forms/loanapp_f.php">Log In</a></div>
-        <div class="card my-4 mx-4">
+<h1><?php echo $page_title ?></h1>
+<div class="alert alert-info my-4" role="alert">Already have an account? <a href="/bdpa-loans/forms/login.php">Log In</a></div>
+        <div class="card my-4 mx- border-info">
 
             <div class="card-header">Sign Up</div>
             <div class="card-body">
@@ -69,8 +70,12 @@ include_once 'web-assets/tpl/app_nav.php';
                         <label for="username" class="col-sm-3">Yearly Salary</label>
                         <input type="text" class="form-control col-sm-9" name="yearlysalary" required>
                     </div>
-                    <input type="submit" class="btn btn-primary" style="float: right">
-                </form>
+                    <div class="form-group row">
+                      <div class= "col-md-6">
+                        <input type="hidden" name="action" value="login">
+                        <button type="submit" class="btn btn-lg btn-primary">Login</button>
+                      </div>
+                    </div>
             </div>
         </div>
 <?php
