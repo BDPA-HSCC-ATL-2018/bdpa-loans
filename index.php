@@ -62,7 +62,11 @@ SQL;
 //Password character verification
 
 function validPassword($pw) {
-  if (!preg_match_all('$\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])()?=\S*[\d])(?=\S*[\W])'))
+  if (!preg_match_all('$\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])()?=\S*[\d])(?=\S*[\W])')) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 //Login Function
