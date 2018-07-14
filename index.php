@@ -79,7 +79,7 @@ SQL;
     }
 
     if (password_verify($pw, $hashed_pw)) {
-        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashboard.php";
+        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/references.php";
     } else {
         var_dump(password_verify($pw, $hashed_pw));
         // include_once __DIR__ . "/index.php?action=signup"; //Go to the sign up page.
@@ -108,6 +108,7 @@ SQL;
     $loantype = $_REQUEST['loantype'];
     $amount = $_REQUEST['amount'];
     $loanterm = $_REQUEST['loanlength'];
+    $L_Int = 0;
 
         switch ($loantype) {
             case 'A':
@@ -175,18 +176,27 @@ function logout() {
 
 //Function for References
 function references() {
-    global $dbh;
-    $ref_first_name = $_REQUEST['ref_first_name'];
-    $ref_last_name = $_REQUEST['ref_last_name'];
-    $ref_phone = $_REQUEST['ref_phone'];
-    $address_line_one = $_REQUEST['address_line_one'];
-    $city_name = $_REQUEST['city_name'];
-    $state_cd = $_REQUEST['state_cd'];
-    $postal_cd = $_REQUEST['postal_cd'];
+  global $dbh;
+  $ref_first_name = $_REQUEST['ref_first_name'];
+  $ref_last_name = $_REQUEST['ref_last_name'];
+  $ref_phone = $_REQUEST['ref_phone'];
+  $address_line_one = $_REQUEST['address_line_one'];
+  $city_name = $_REQUEST['city_name'];
+  $state_cd = $_REQUEST['state_cd'];
+  $postal_cd = $_REQUEST['postal_cd'];
+  $customer_id = $_SESSION['customer_id'];
 
-    $sql = <<<SQL
-        INSERT INTO customer_references(ref_first_name, ref_last_name, ref_phone, address_line_one, city_name, state_cd, postal_cd)
-        VALUES("$ref_first_name", "$ref_last_name", "$ref_phone", "$address_line_one", "$city_name", "$state_cd","$postal_cd");
+  $sql = <<<SQL
+  INSERT INTO customer_references(customer_id, ref_first_name, ref_last_name, ref_phone, address_line_one, city_name, state_cd, postal_cd)
+  VALUES($customer_id, "$ref_first_name", "$ref_last_name", "$ref_phone", "$address_line_one", "$city_name", "$state_cd","$postal_cd");
 SQL;
+
+  $result = $dbh->query($sql);
+
+  if ($result) {
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashboard.php";
+  } else {
+    echo "nope. try again.";
+  }
 }
 ?>

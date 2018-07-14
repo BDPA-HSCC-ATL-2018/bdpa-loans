@@ -1,7 +1,7 @@
 <?php
 $page_title = "Customer References";
-include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_header.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php';
 ?>
 <h1><?php echo $page_title ?></h1>
 <div class="alert alert-info my-4" role="alert">Add at least one customer reference below:</div>

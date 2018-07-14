@@ -7,7 +7,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php
   <?php
   global $dbh;
     $email = $_SESSION['email'];
-    $cust_id = $_SESSION['cust_id'];
+    $cust_id = $_SESSION['customer_id'];
     $sql = <<<SQL
       SELECT * FROM loan_application WHERE customer_id = $cust_id;
 SQL;
