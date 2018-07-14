@@ -2,8 +2,9 @@
 include_once 'web-assets/tpl/app_header.php';
 include_once 'web-assets/tpl/app_nav.php';
 ?>
-
+<div class="alert alert-success my-4 mx-4" role="alert">Already have an account? <a href="/bdpa-loans/forms/loanapp_f.php">Log In</a></div>
         <div class="card my-4 mx-4">
+
             <div class="card-header">Sign Up</div>
             <div class="card-body">
                 <form action="/bdpa-loans/index.php?action=signup" method="post">
