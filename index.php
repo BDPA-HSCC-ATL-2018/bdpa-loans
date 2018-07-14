@@ -7,7 +7,8 @@ $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : null;
 $options = array (
     'signup' => 'signup',
     'login' => 'login',
-    'loanapp' => 'loanapp'
+    'loanapp' => 'loanapp',
+    'references' => 'references'
 );
 
 if (array_key_exists($action, $options)) {
@@ -165,5 +166,22 @@ SQL;
         }
     }
 
+}
+
+//Function for References
+function references() {
+    global $dbh;
+    $ref_first_name = $_REQUEST['ref_first_name'];
+    $ref_last_name = $_REQUEST['ref_last_name'];
+    $ref_phone = $_REQUEST['ref_phone'];
+    $address_line_one = $_REQUEST['address_line_one'];
+    $city_name = $_REQUEST['city_name'];
+    $state_cd = $_REQUEST['state_cd'];
+    $postal_cd = $_REQUEST['postal_cd'];
+
+    $sql = <<<SQL
+        INSERT INTO customer_references(ref_first_name, ref_last_name, ref_phone, address_line_one, city_name, state_cd, postal_cd)
+        VALUES("$ref_first_name", "$ref_last_name", "$ref_phone", "$address_line_one", "$city_name", "$state_cd","$postal_cd");
+SQL;
 }
 ?>
