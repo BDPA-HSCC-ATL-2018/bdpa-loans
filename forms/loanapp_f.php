@@ -1,4 +1,5 @@
 <?php
+$page_title = "Create Loan";
 include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_header.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
 ?>
@@ -7,7 +8,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
         <div class="card my-4 mx-4">
             <div class="card-header">Take Out A Loan</div>
             <div class="card-body">
-                <form action="/loan_app/index.php?action=loanapp">
+                <form action="/bdpa-loans/index.php?action=loanapp" method="post">
                     <!--Type-->
                     <div class="form-group row">
                         <label for="username" class="col-sm-3">Loan Type</label>
