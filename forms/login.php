@@ -6,7 +6,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php
 <h1><?php echo $page_title ?></h1>
 
 <form id="login" method="post" action="../index.php?action=login" class="needs-validation" novalidate>
-
+  <div class="alert alert-info my-4" role="alert">Don't have an account? <a href="/bdpa-loans/forms/signup.php">Sign Up</a></div>
   <div class="card border-info">
     <div class="card-header">Log In</div>
     <div class="card-body">
