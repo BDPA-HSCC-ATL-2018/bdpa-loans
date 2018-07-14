@@ -59,6 +59,12 @@ SQL;
 
 }
 
+//Password character verification
+
+function validPassword($pw) {
+  if (!preg_match_all('$\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])()?=\S*[\d])(?=\S*[\W])'))
+}
+
 //Login Function
 function login() {
     global $dbh;
