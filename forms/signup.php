@@ -1,4 +1,5 @@
 <?php
+$page_title = "Sign Up";
 include_once 'web-assets/tpl/app_header.php';
 include_once 'web-assets/tpl/app_nav.php';
 ?>

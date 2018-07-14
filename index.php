@@ -56,13 +56,13 @@ function login() {
     $pw = $_REQUEST['pw'];
 
     $sql = <<<SQL
-        SELECT * FROM customers WHERE cust_email = "$email";
+        SELECT * FROM customers WHERE email_id = "$email";
 SQL;
 
     $result = $dbh->query($sql);
 
     while ($row = $result->fetch_assoc()) {
-        $hashed_pw = $row['cust_PW'];
+        $hashed_pw = $row['login_PW'];
     }
 
     if (password_verify($pw, $hashed_pw)) {
@@ -79,19 +79,16 @@ function loanapp() {
 
     //Get needed info from cust. table
     $cust_sql = <<<SQL
-        SELECT cust_Id, cust_yr_Salary, cust_type FROM customers WHERE email = "$email";
+        SELECT customer_id, annual_income FROM customers WHERE email_id = "$email";
 SQL;
 
     $cust_result = $dbh->query($cust_sql);
 
     if ($cust_result) {
-        while ($row = $result->fetch_assoc()) {
-            $salary = $row['cust_yr_Salary'];
-            $cust_type = $row['cust_type'];
-            $cust_id = $row['cust_Id'];
-            $L_Date = $_REQUEST['l_date'];
-            $L_Term = $_REQUEST['l_term'];
-            $L_Interest = $_REQUEEST['l_int'];
+        while ($row = $cust_result->fetch_assoc()) {
+            $salary = $row['annual_income'];
+            $cust_id = $row['customer_id'];
+            $L_Term = $_REQUEST['loanlength'];
         }
 
     $loantype = $_REQUEST['loantype'];
@@ -102,46 +99,56 @@ SQL;
             case 'A':
                 if (!($amount >= (.50 * $salary)))
                     //Then the loan can be made
+                    $L_Int = 1.0625;
                     $amount = $amount * 1.0625;
                     $monthly_payment = ($amount / $loanterm);
                 break;
             case 'H':
                 if (!($amount >= (.027 * $salary)))
                     //Then the loan can be made
+                    $L_Int = 1.0625;
                     $amount = $amount * 1.0625;
                     $monthly_payment = ($amount / $loanterm);
                 break;
             case 'B':
                 if (!($amount >= (.015 * $salary)))
                     //Then the loan can be made
+                    $L_Int = 1.0675;
                     $amount = $amount * 1.0675;
                     $monthly_payment = ($amount / $loanterm);
                 break;
             case 'M':
                 if (!($amount >= (.015 * $salary)))
                     //Then the loan can be made
+                    $L_Int = 1.0575;
                     $amount = $amount * 1.0575;
                     $monthly_payment = ($amount / $loanterm);
                 break;
             case 'S':
                 if (!($amount >= (.15 * $salary)))
                     //Then the loan can be made
+                    $L_Int = 1.055;
                     $amount = $amount * 1.055;
                     $monthly_payment = ($amount / $loanterm);
                 break;
         }
 
         $math_sql = <<<SQL
-        INSERT INTO loanapp(customer_id, loan_type_cd, loan_amount, monthly_payment, loan_status_date, loan_term_months, interest_rate)
-    VALUES($cust_id, "$loantype", $amount, $monthly_payment, $loanterm, $L_Date, $L_Term, $L_Int)
+        INSERT INTO loan_application(customer_id, loan_type_cd, loan_amount, monthly_payment, loan_term_months, interest_rate)
+    VALUES($cust_id, "$loantype", $amount, $monthly_payment, $loanterm, $L_Int)
 SQL;
         $result = $dbh->query($math_sql);
 
         if ($result) {
-            include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashbaord.php";
+            include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashboard.php";
         } else {
-            echo ("It didn't work. (loanapp)");
-            echo ($custid);
+            echo ("It didn't work. (loanapp) <br>");
+            echo ($cust_id);
+            echo $loantype;
+            echo $amount;
+            echo $monthly_payment;
+            echo $loanterm;
+            echo $L_Int;
         }
     }
 
