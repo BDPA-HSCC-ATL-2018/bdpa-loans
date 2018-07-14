@@ -22,40 +22,13 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
                     <!--Amount-->
                     <div class="form-group row">
                         <label for="username" class="col-sm-3">Loan Amount</label>
-                        <input type="number" class="form-control col-sm-9" name="username">
+                        <input type="number" class="form-control col-sm-9" name="amount">
                     </div>
-                    <!--Ref1-->
-                    <div class="card-sm">
-
-                            <div class="card-body">
-                                <div class="form-group row">
-                                    <label for="ref1_first" class="col-sm-3">Reference1 First Name</label>
-                                    <input type="text" class="form-control col-sm-9" name="ref1_first">
-                                </div>
-                                <div class="form-group row">
-                                    <label for="ref1_last" class="col-sm-3">Reference1 Last Name</label>
-                                    <input type="text" class="form-control col-sm-9" name="ref1_last">
-                                </div>
-                                <div class="form-group row">
-                                    <label for="ref1_tel" class="col-sm-3">Reference1 Telephone</label>
-                                    <input type="tel" class="form-control col-sm-9" name="ref1_tel">
-                                </div>
-                                 <!--Ref2-->
-                                <div class="form-group row">
-                                    <label for="ref2_first" class="col-sm-3">Reference2 First Name</label>
-                                    <input type="text" class="form-control col-sm-9" name="ref1_first">
-                                </div>
-                                <div class="form-group row">
-                                    <label for="ref2_last" class="col-sm-3">Reference2 Last Name</label>
-                                    <input type="text" class="form-control col-sm-9" name="ref1_last">
-                                </div>
-                                <div class="form-group row">
-                                    <label for="ref2_tel" class="col-sm-3">Reference2 Telephone</label>
-                                    <input type="tel" class="form-control col-sm-9" name="ref1_tel">
-                                </div>
-                        </div>
+                    <!--Loan Length-->
+                    <div class="form-group row">
+                        <label for="loanlength" class="col-sm-3">Months to Pay Loan</label>
+                        <input type="number" class="form-control col-sm-9" name="loanlength" id="loanlength">
                     </div>
-
                     <br/>
 
 

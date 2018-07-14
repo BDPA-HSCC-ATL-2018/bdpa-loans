@@ -1,6 +1,6 @@
 <?php
-include_once '../web-assets/tpl/app_header.php';
-include_once '../web-assets/tpl/app_nav.php';
+include_once 'web-assets/tpl/app_header.php';
+include_once 'web-assets/tpl/app_nav.php';
 ?>
 
         <div class="card my-4 mx-4">
