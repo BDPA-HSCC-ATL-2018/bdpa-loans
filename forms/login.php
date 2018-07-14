@@ -1,7 +1,7 @@
 <?php
 $page_title = "Log In";
 include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpaa-loans/web-assets/tpl/app_nav.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php';
 ?>
 <h1><?php echo $page_title ?></h1>
 

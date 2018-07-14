@@ -43,16 +43,16 @@ SQL;
 SQL;
         $personal_result = $dbh->query($personal_sql);
 
-        
-
+        while ($row = $personal_result->fetch_assoc()) {
           $personal_echo = "
-            Name: " . $row['first_name'] . " " . $row['last_name'] . "<br>
-            Email: " . $row['email'] . "<br>
-            Street Address: " . $row['address_line_one'] . "<br>
-            City: " . $row['city_name'] . "<br>
-            State: " . $row['state_cd'] . "<br>
-            Zip Code: " . $row['postal_cd'] . "<br>
+            Name: " . $row['first_name'] . " " . $row['last_name'] . "<br><br>
+            Email: " . $row['email_id'] . "<br><br>
+            Street Address: " . $row['address_line_one'] . "<br><br>
+            City: " . $row['city_name'] . "<br><br>
+            State: " . $row['state_cd'] . "<br><br>
+            Zip Code: " . $row['postal_cd'] . "<br><br>
           ";
+        }
 
           echo $personal_echo;
       ?>

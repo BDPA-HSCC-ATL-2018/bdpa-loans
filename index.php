@@ -18,7 +18,7 @@ if (array_key_exists($action, $options)) {
     include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/signup.php";
 }
 
-//Signup Form
+//Sign Up Form
 function signup() {
     global $dbh;
     $email = $_REQUEST['email_id'];
@@ -165,7 +165,12 @@ SQL;
             echo $L_Int;
         }
     }
+}
 
+function logout() {
+  session_unset();
+  session_destroy();
+  include __DIR__ . '/index.php?action=signup';
 }
 
 //Function for References
