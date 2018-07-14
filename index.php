@@ -20,7 +20,7 @@ if (array_key_exists($action, $options)) {
 //Signup Form
 function signup() {
     global $dbh;
-    $email = $_REQUEST['email'];
+    $email = $_REQUEST['email_id'];
     $pw = $_REQUEST['pw']; $pw = password_hash($pw, PASSWORD_DEFAULT);
     $fname = $_REQUEST['fname'];
     $lname = $_REQUEST['lname'];
@@ -43,7 +43,9 @@ SQL;
     if ($result) {
         $_SESSION['email'] = $email;
 
-        $customer_id_sql = SELECT customer_id FROM customers WHERE email_id = $email;
+        $customer_id_sql = <<<SQL
+          SELECT customer_id FROM customers WHERE email_id = "$email"
+SQL;
         $customer_id_result = $dbh->query($customer_id_sql);
         while ($customer_id_row = $customer_id_result->fetch_assoc()) {
           $_SESSION['customer_id'] = $customer_id_row['customer_id'];
@@ -54,14 +56,13 @@ SQL;
        echo ("It didn't work.");
     }
 
-    if
 }
 
 //Login Function
 function login() {
     global $dbh;
 
-    $email = $_REQUEST['email'];
+    $email = $_REQUEST['email_id'];
     $pw = $_REQUEST['pw'];
 
     $sql = <<<SQL
@@ -72,12 +73,15 @@ SQL;
 
     while ($row = $result->fetch_assoc()) {
         $hashed_pw = $row['login_pw'];
+        $_SESSION['cust_id'] = $row['customer_id'];
+        $_SESSION['email'] = $row['email_id'];
     }
 
     if (password_verify($pw, $hashed_pw)) {
         include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashboard.php";
     } else {
-        include_once __DIR__ . '/bdpa-loans'; //Go to the sign up page.
+        var_dump(password_verify($pw, $hashed_pw));
+        // include_once __DIR__ . "/index.php?action=signup"; //Go to the sign up page.
     }
 }
 

@@ -1,32 +1,31 @@
 <?php
-session_start();
 $page_title = "Dashboard";
-include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_header.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php';
 ?>
-<div class="col-md-10">
+<div class="col-md-9" style="float: left;">
   <?php
   global $dbh;
     $email = $_SESSION['email'];
+    $cust_id = $_SESSION['cust_id'];
     $sql = <<<SQL
-      SELECT * FROM loan_application WHERE email_id = "$email";
+      SELECT * FROM loan_application WHERE customer_id = $cust_id;
 SQL;
     $result = $dbh->query($sql);
 
     //Get loans from customer.
     $i = 1;
     while($row = $result->fetch_assoc()) {
-      $echo_statement = <<<ECHO
+      $echo_statement =
         "<div class='card'>
-          <div class='card-header'>Loan . " $i . "</div>
+          <div class='card-header'>Loan " . $i . "</div>
           <div class='card-body'>
-            //TODO Add loan type.
-            Amount: " . "<br>
-            Months to Pay: " . "<br>
-            Interest Rate: " . "<br>
+            Amount: " . $row['loan_amount'] . "<br>
+            Months to Pay: " . $row['loan_term_months']. "<br>
+            Interest Rate: " . $row['interest_rate'] . "<br>
           </div>
-        </div>"
-ECHO;
+        </div>
+        <br>";
 
     echo $echo_statement;
     $i++;
@@ -34,5 +33,29 @@ ECHO;
   ?>
 </div>
 
-<div class="col-md-2">
+<div class="col-md-3" style="float: right">
+  <div class="card">
+    <div class="card-header">Personal Information</div>
+    <div class="card-body">
+      <?php
+        $personal_sql = <<<SQL
+          SELECT * FROM customers WHERE customer_id = $cust_id;
+SQL;
+        $personal_result = $dbh->query($personal_sql);
+
+        
+
+          $personal_echo = "
+            Name: " . $row['first_name'] . " " . $row['last_name'] . "<br>
+            Email: " . $row['email'] . "<br>
+            Street Address: " . $row['address_line_one'] . "<br>
+            City: " . $row['city_name'] . "<br>
+            State: " . $row['state_cd'] . "<br>
+            Zip Code: " . $row['postal_cd'] . "<br>
+          ";
+
+          echo $personal_echo;
+      ?>
+    </div>
+  </div>
 </div>

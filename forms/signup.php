@@ -1,7 +1,7 @@
 <?php
 $page_title = "Sign Up";
-include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_header.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php';
 ?>
 <h1><?php echo $page_title ?></h1>
 <div class="alert alert-info my-4" role="alert">Already have an account? <a href="/bdpa-loans/forms/login.php">Log In</a></div>
@@ -9,11 +9,11 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
 
             <div class="card-header">Sign Up</div>
             <div class="card-body">
-                <form action="/bdpa-loans/index.php?action=signup" method="post">
+                <form action="index.php?action=signup" method="post">
                     <!--Email-->
                     <div class="form-group row">
                         <label for="email" class="col-sm-3">Email</label>
-                        <input type="email" class="form-control col-sm-9" name="email" required>
+                        <input type="email" class="form-control col-sm-9" name="email_id" required>
                     </div>
                     <!--Password-->
                     <div class="form-group row">
@@ -72,7 +72,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
                     </div>
                     <div class="form-group row">
                       <div class= "col-md-6">
-                        <input type="hidden" name="action" value="login">
                         <button type="submit" class="btn btn-lg btn-primary">Login</button>
                       </div>
                     </div>

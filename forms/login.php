@@ -1,11 +1,11 @@
 <?php
 $page_title = "Log In";
-include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_header.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpaa-loans/web-assets/tpl/app_nav.php';
 ?>
 <h1><?php echo $page_title ?></h1>
 
-<form id="login" method="post" action="/bdpa-loans/" class="needs-validation" novalidate>
+<form id="login" method="post" action="../index.php?action=login" class="needs-validation" novalidate>
 
   <div class="card border-info">
     <div class="card-header">Log In</div>
@@ -27,7 +27,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
 
       <div class="form-group row">
         <div class= "col-md-6">
-          <input type="hidden" name="action" value="login">
           <button type="submit" class="btn btn-lg btn-primary">Login</button>
         </div>
       </div>
