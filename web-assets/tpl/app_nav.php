@@ -37,9 +37,9 @@
         <a class="nav-link disabled" href="#">Disabled</a>
       </li>
     </ul> -->
-    <form class="form-inline my-2 my-lg-0"> <!--TODO Align right-->
+    <form class="form-inline my-2 my-lg-0">
       <!-- <p>Logged in as <?php $logged_in_text ?></p> -->
-      <a class="btn btn-secondary my-2 my-sm-0" href="index.php?action=destroy">Logout</a>
+      <a class="btn btn-secondary my-2 my-sm-0" href="index.php?action=destroy" style="position: absolute; right: 20px">Logout</a>
     </form>
   </div>
 </nav>

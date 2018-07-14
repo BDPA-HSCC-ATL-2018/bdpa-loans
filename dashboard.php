@@ -1,23 +1,38 @@
 <?php
+session_start();
 $page_title = "Dashboard";
 include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_header.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
 ?>
-<br>
-<div class="jumbotron">
-    <div style="float: right; width: 38%">
-    <div class="card">
-        <div class="card-header">Customer Profile
+<div class="col-md-10">
+  <?php
+  global $dbh;
+    $email = $_SESSION['email'];
+    $sql = <<<SQL
+      SELECT * FROM loan_application WHERE email_id = "$email";
+SQL;
+    $result = $dbh->query($sql);
 
-          <img class="card-img" style="width=16px; height=auto" src="Capture.png"  ><h3 class="card-title">
-           Jake Paul
-            </h3>
-            </div>
-        <div class="card-body">
+    //Get loans from customer.
+    $i = 1;
+    while($row = $result->fetch_assoc()) {
+      $echo_statement = <<<ECHO
+        "<div class='card'>
+          <div class='card-header'>Loan . " $i . "</div>
+          <div class='card-body'>
+            //TODO Add loan type.
+            Amount: " . "<br>
+            Months to Pay: " . "<br>
+            Interest Rate: " . "<br>
+          </div>
+        </div>"
+ECHO;
 
-           <h5 class="text-secondary">lame@ss.youtuber</h5>
-            <h5 class="text-secondary">Valley guy st.</h5>
-        </div>
-    </div>
+    echo $echo_statement;
+    $i++;
+    }
+  ?>
 </div>
-    </div>
+
+<div class="col-md-2">
+</div>

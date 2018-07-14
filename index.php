@@ -42,10 +42,19 @@ SQL;
 
     if ($result) {
         $_SESSION['email'] = $email;
+
+        $customer_id_sql = SELECT customer_id FROM customers WHERE email_id = $email;
+        $customer_id_result = $dbh->query($customer_id_sql);
+        while ($customer_id_row = $customer_id_result->fetch_assoc()) {
+          $_SESSION['customer_id'] = $customer_id_row['customer_id'];
+        }
+
         include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/loanapp_f.php";
     } else {
        echo ("It didn't work.");
     }
+
+    if
 }
 
 //Login Function
@@ -62,13 +71,13 @@ SQL;
     $result = $dbh->query($sql);
 
     while ($row = $result->fetch_assoc()) {
-        $hashed_pw = $row['login_PW'];
+        $hashed_pw = $row['login_pw'];
     }
 
     if (password_verify($pw, $hashed_pw)) {
         include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashboard.php";
     } else {
-        include_once __DIR__ . '/bdpa-loans';
+        include_once __DIR__ . '/bdpa-loans'; //Go to the sign up page.
     }
 }
 
