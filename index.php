@@ -8,14 +8,15 @@ $options = array (
     'signup' => 'signup',
     'login' => 'login',
     'loanapp' => 'loanapp',
-    'references' => 'references'
+    'references' => 'references',
+    'logout' => 'logout'
 );
 
 if (array_key_exists($action, $options)) {
     $function = $options[$action];
     call_user_func($function);
 } else {
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/signup.php";
+    header("Location: forms/signup.php");
 }
 
 //Valid Password
@@ -55,14 +56,14 @@ SQL;
         $_SESSION['email'] = $email;
 
         $customer_id_sql = <<<SQL
-        SELECT customer_id FROM customers WHERE email_id = "$email"
+        SELECT customer_id FROM customers WHERE email_id = "$email";
 SQL;
         $customer_id_result = $dbh->query($customer_id_sql);
         while ($customer_id_row = $customer_id_result->fetch_assoc()) {
           $_SESSION['customer_id'] = $customer_id_row['customer_id'];
         }
 
-        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashboard.php";
+        header("Location: dashboard.php");
       } else {
         echo ("It didn't work.") . mysqli_error($dbh);
       }
@@ -86,15 +87,18 @@ SQL;
 
     while ($row = $result->fetch_assoc()) {
         $hashed_pw = $row['login_pw'];
-        $_SESSION['cust_id'] = $row['customer_id'];
+        $_SESSION['customer_id'] = $row['customer_id'];
         $_SESSION['email'] = $row['email_id'];
     }
 
+    if (!isset($hashed_pw)) {
+      echo "The password was incorrect.";
+    }
+
     if (password_verify($pw, $hashed_pw)) {
-        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/dashboard.php";
+        header("Location: dashboard.php"); //Changed to a redirect because refreshing the page would cause issues.
     } else {
         var_dump(password_verify($pw, $hashed_pw));
-        // include_once __DIR__ . "/index.php?action=signup"; //Go to the sign up page.
     }
 }
 
@@ -167,7 +171,7 @@ SQL;
         $result = $dbh->query($math_sql);
 
         if ($result) {
-            include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashboard.php";
+            header("Location: dashboard.php");
         } else {
             echo ("It didn't work. (loanapp) <br>");
             echo ($cust_id);
@@ -184,7 +188,7 @@ SQL;
 function logout() {
   session_unset();
   session_destroy();
-  include __DIR__ . '/index.php?action=signup';
+  header("Location: forms/signup.php");
 }
 
 //References
@@ -207,7 +211,7 @@ SQL;
   $result = $dbh->query($sql);
 
   if ($result) {
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashboard.php";
+    header("Location: dashboard.php");
   } else {
     echo "nope. try again.";
   }

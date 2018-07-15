@@ -9,7 +9,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php
 
             <div class="card-header">Sign Up</div>
             <div class="card-body">
-                <form action="index.php?action=signup" method="post">
+                <form action="/bdpa-loans/index.php?action=signup" method="post">
                     <!--Email-->
                     <div class="form-group row">
                         <label for="email" class="col-sm-3">Email</label>

@@ -2,9 +2,20 @@
 $page_title = "Customer References";
 include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php';
+
+//Checks to see if the person has at least one reference.
+$customer_id = $_SESSION['customer_id'];
+$reference_check_sql = <<<SQL
+  SELECT * FROM customer_references WHERE customer_id = "$customer_id";
+SQL;
+$reference_check_result = $dbh->query($reference_check_sql);
+if ($reference_check_result->num_rows > 0) {
+  //Continue with the page.
+} else {
+  echo "<div class='alert alert-info my-4' role='alert'>Add at least one customer reference below:</div>";
+}
 ?>
 <h1><?php echo $page_title ?></h1>
-<div class="alert alert-info my-4" role="alert">Add at least one customer reference below:</div>
         <div class="card my-4 border-info">
 
             <div class="card-header">Customer References</div>

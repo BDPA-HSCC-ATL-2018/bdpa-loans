@@ -1,7 +1,19 @@
 <?php
 $page_title = "Create Loan";
-include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_header.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php';
+
+//Checks to see if the person has at least one reference.
+$customer_id = $_SESSION['customer_id'];
+$reference_check_sql = <<<SQL
+  SELECT * FROM customer_references WHERE customer_id = "$customer_id";
+SQL;
+$reference_check_result = $dbh->query($reference_check_sql);
+if ($reference_check_result->num_rows > 0) {
+  //Continue with the page.
+} else {
+  header("Location: references.php");
+}
 ?>
 
 
