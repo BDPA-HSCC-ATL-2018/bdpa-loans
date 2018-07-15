@@ -31,7 +31,19 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_nav.php';
                         <input type="number" class="form-control col-sm-9" name="loanlength" id="loanlength">
                     </div>
                     <br/>
-
+                    <!-- Optional Add-ons for a loan -->
+                    <!-- extended warranty -->
+                    <div class="form-group row">
+                        <input type="checkbox" class="form-control col-sm-9" name="ew" id="ew">Extended Warranty
+                    </div>
+                    <!-- payoff insurance -->
+                    <div class="form-group row">
+                        <input type="checkbox" class="form-control col-sm-9" name="pi" id="pi">Payoff Insurance
+                    </div>
+                    <!-- Monthly Payment Insurance -->
+                    <div class="form-group row">
+                        <input type="checkbox" class="form-control col-sm-9" name="mi" id="mi">Monthly Payment Insurance
+                    </div>
 
                     <button class="btn btn-primary">Submit</button>
                 </form>
