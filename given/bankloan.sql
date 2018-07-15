@@ -3,7 +3,7 @@ create database if not exists bankloan;
 use bankloan;
 
 drop table if exists customers;
-create table customers (
+create table if not exists customers (
   customer_id int(11) not null auto_increment,
   email_id varchar(255) not null,
   login_pw varchar(255) not null,
@@ -16,7 +16,7 @@ create table customers (
   pri_phone varchar(255) not null,
   alt_phone varchar(255) default null,
   employer_name varchar(255) default null,
-  annual_income decimal(9,4) not null,
+  annual_income decimal(9,2) not null,
   bad_login_count int(11) not null default 0,
   account_locked_sw int(1) not null default 0,
   lastmod timestamp not null default current_timestamp on update current_timestamp,
@@ -25,12 +25,12 @@ create table customers (
 ) Engine=InnoDB auto_increment=110000 Default Charset=latin1;
 
 drop table if exists customer_references;
-create table customer_references (
+create table if not exists customer_references (
   reference_id int(11) not null auto_increment,
   customer_id int(11) not null,
-  ref_first_name varchar(255) not null,
-  ref_last_name varchar(255) not null,
-  ref_phone varchar(255) not null,
+  first_name varchar(255) not null,
+  last_name varchar(255) not null,
+  pri_phone varchar(255) not null,
   address_line_one varchar(255) not null,
   city_name varchar(255) not null,
   state_cd varchar(2) not null,
@@ -41,16 +41,16 @@ create table customer_references (
 ) Engine=InnoDB Default Charset=latin1;
 
 drop table if exists loan_types;
-create table loan_types (
+create table if not exists loan_types (
   loan_type_cd varchar(1) not null,
-  loan_type_desc varchar(255) not null,
+  loan_type_cd_desc varchar(255) not null,
   loan_type_image longblob,
   primary key (loan_type_cd)
 ) Engine=InnoDB Default Charset=latin1;
 
 insert into loan_types (
   loan_type_cd,
-  loan_type_desc,
+  loan_type_cd_desc,
   loan_type_image
 ) values
 ('A','Auto Loan',null),
@@ -117,12 +117,12 @@ insert into loan_application_status (
 ('W','Withdrawn/Cancelled by Customer','Y');
 
 drop table if exists loan_application;
-create table loan_application (
+create table if not exists loan_application (
   loan_id int(11) not null auto_increment,
   customer_id int(11) not null,
   loan_type_cd varchar(1) not null,
-  loan_amount decimal(19,4) not null,
-  monthly_payment decimal(19,4) not null,
+  loan_amount decimal(19,2) not null,
+  monthly_payment decimal(19,2) not null,
   interest_rate decimal(4,4) not null,
   loan_status_date datetime default null,
   loan_acceptance_date datetime default null,
@@ -136,10 +136,11 @@ create table loan_application (
 ) Engine=InnoDB Default Charset=latin1;
 
 drop table if exists optional_products;
-create table optional_products (
+create table if not exists optional_products (
   optional_product_cd varchar(2) not null,
-  optional_product_cost decimal(9,4)not null,
-  optional_product_desc varchar(30) not null
+  optional_product_cost decimal(9,2) not null,
+  optional_product_desc varchar(30) not null,
+  primary key (optional_product_cd)
 ) Engine=InnoDB Default Charset=latin1;
 
 insert into optional_products (
@@ -147,9 +148,20 @@ insert into optional_products (
   optional_product_cost,
   optional_product_desc
 ) values
-('PI',6.2500,'Payoff Insurance'),
-('EW',6.7500,'Extended Warranty'),
-('MI',5.7500,'Monthly Payment Insurance');
+('PI',3.2500,'Payoff Insurance'),
+('EW',3.7500,'Extended Warranty'),
+('MI',2.7500,'Monthly Payment Insurance');
+
+drop table if exists loan_options_selected;
+drop table if exists customer_loan_options;
+create table if not exists customer_loan_options (
+  loan_id int(11) not null,
+  optional_product_cd varchar(2) not null,
+  optional_product_cost decimal(9,2) not null,
+  primary key (loan_id,optional_product_cd),
+  foreign key (loan_id) references loan_application(loan_id) on update cascade on delete restrict,
+  foreign key (optional_product_cd) references optional_products(optional_product_cd) on update cascade on delete restrict
+) Engine=InnoDB Default Charset=latin1;
 
 drop table if exists appl_states;
 create table if not exists appl_states (
