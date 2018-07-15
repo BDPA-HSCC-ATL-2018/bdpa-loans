@@ -9,7 +9,7 @@
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/../../dashboard.php">Job App</a>
+  <a class="navbar-brand" href="/../../dashboard.php">Loan Application</a>
   <a class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" href="/bdpa-loans/index.php?action=logout">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -38,7 +38,6 @@
       </li>
     </ul> -->
     <form class="form-inline my-2 my-lg-0">
-      <!-- <p>Logged in as <?php $logged_in_text ?></p> -->
       <a class="btn btn-secondary my-2 my-sm-0" href="index.php?action=destroy" style="position: absolute; right: 20px">Logout</a>
     </form>
   </div>

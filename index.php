@@ -18,6 +18,15 @@ if (array_key_exists($action, $options)) {
     include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/signup.php";
 }
 
+//Valid Password
+function validPassword($pw) {
+  if (!preg_match_all('$\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$', $pw)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 //Sign Up Form
 function signup() {
     global $dbh;
@@ -34,39 +43,32 @@ function signup() {
     $company = $_REQUEST['company'];
     $cust_yr_salary = $_REQUEST['yearlysalary'];
 
-    $sql = <<<SQL
-        INSERT INTO customers(email_id, login_pw, first_name, last_name, address_line_one, city_name, state_cd, postal_cd, pri_phone, alt_phone, employer_name, annual_income)
-        VALUES("$email", "$pw","$fname", "$lname", "$address", "$city", "$state", "$zip", "$telephone", "$cellphone", "$company", $cust_yr_salary);
+    if (validPassword($pw)) {
+      $sql = <<<SQL
+      INSERT INTO customers(email_id, login_pw, first_name, last_name, address_line_one, city_name, state_cd, postal_cd, pri_phone, alt_phone, employer_name, annual_income)
+      VALUES("$email", "$pw","$fname", "$lname", "$address", "$city", "$state", "$zip", "$telephone", "$cellphone", "$company", $cust_yr_salary);
 SQL;
 
-    $result = $dbh->query($sql);
+      $result = $dbh->query($sql);
 
-    if ($result) {
+      if ($result) {
         $_SESSION['email'] = $email;
 
         $customer_id_sql = <<<SQL
-          SELECT customer_id FROM customers WHERE email_id = "$email"
+        SELECT customer_id FROM customers WHERE email_id = "$email"
 SQL;
         $customer_id_result = $dbh->query($customer_id_sql);
         while ($customer_id_row = $customer_id_result->fetch_assoc()) {
           $_SESSION['customer_id'] = $customer_id_row['customer_id'];
         }
 
-        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/loanapp_f.php";
-    } else {
-       echo ("It didn't work.");
+        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/dashboard.php";
+      } else {
+        echo ("It didn't work.") . mysqli_error($dbh);
+      }
+
     }
 
-}
-
-//Password character verification
-
-function validPassword($pw) {
-  if (!preg_match_all('$\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])()?=\S*[\d])(?=\S*[\W])')) {
-    return false;
-  } else {
-    return true;
-  }
 }
 
 //Login Function
@@ -89,7 +91,7 @@ SQL;
     }
 
     if (password_verify($pw, $hashed_pw)) {
-        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/references.php";
+        include_once $_SERVER['DOCUMENT_ROOT'] . "/bdpa-loans/forms/dashboard.php";
     } else {
         var_dump(password_verify($pw, $hashed_pw));
         // include_once __DIR__ . "/index.php?action=signup"; //Go to the sign up page.
@@ -178,13 +180,14 @@ SQL;
     }
 }
 
+//Logout
 function logout() {
   session_unset();
   session_destroy();
   include __DIR__ . '/index.php?action=signup';
 }
 
-//Function for References
+//References
 function references() {
   global $dbh;
   $ref_first_name = $_REQUEST['ref_first_name'];
