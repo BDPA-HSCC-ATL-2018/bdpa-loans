@@ -23,18 +23,48 @@ SQL;
       while($row = $result->fetch_assoc()) {
         switch ($row['loan_type_cd']) {
           case 'A':
+			$img_sql = <<<SQL 
+				select loan_type_image from loan_types where loan_type_cd = 'A';
+SQL;
+			$img_result = $dbh->query($img_sql);
+			$img_row = $img_result->fetch_assoc();
+			$img = base64_encode($img_row);
             $row['loan_type_cd'] = "Automobile";
             break;
           case 'H':
+		  $img_sql = <<<SQL 
+				select loan_type_image from loan_types where loan_type_cd = 'H';
+SQL;
+			$img_result = $dbh->query($img_sql);
+			$img_row = $img_result->fetch_assoc();
+			$img = base64_encode($img_row);
             $row['loan_type_cd'] = "House";
             break;
           case 'M':
+		  $img_sql = <<<SQL 
+				select loan_type_image from loan_types where loan_type_cd = 'M';
+SQL;
+			$img_result = $dbh->query($img_sql);
+			$img_row = $img_result->fetch_assoc();	
+			$img = base64_encode($img_row);
             $row['loan_type_cd'] = "Motorcycle";
             break;
           case 'B':
+		  $img_sql = <<<SQL 
+				select loan_type_image from loan_types where loan_type_cd = 'B';
+SQL;
+			$img_result = $dbh->query($img_sql);
+			$img_row = $img_result->fetch_assoc();
+			$img = base64_encode($img_row);
             $row['loan_type_cd'] = "Boat";
             break;
           case 'S':
+		  $img_sql = <<<SQL 
+				select loan_type_image from loan_types where loan_type_cd = 'A';
+SQL;
+			$img_result = $dbh->query($img_sql);
+			$img_row = $img_result->fetch_assoc();
+			$img = base64_encode($img_row);
             $row['loan_type_cd'] = "Student";
             break;
           default:
