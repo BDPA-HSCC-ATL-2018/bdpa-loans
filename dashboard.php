@@ -21,12 +21,34 @@ SQL;
     if ($result->num_rows > 0) {
       $i = 1;
       while($row = $result->fetch_assoc()) {
+        switch ($row['loan_type_cd']) {
+          case 'A':
+            $row['loan_type_cd'] = "Automobile";
+            break;
+          case 'H':
+            $row['loan_type_cd'] = "House";
+            break;
+          case 'M':
+            $row['loan_type_cd'] = "Motorcycle";
+            break;
+          case 'B':
+            $row['loan_type_cd'] = "Boat";
+            break;
+          case 'S':
+            $row['loan_type_cd'] = "Student";
+            break;
+          default:
+            $row['loan_type_cd'] = "Unidentified Loan";
+            break;
+        }
         $echo_statement =
         "<div class='card my-4'>
         <div class='card-header'>Loan " . $i . "</div>
-        <div class='card-body'>
-        Amount: " . $row['loan_amount'] . "<br>
+        <div class='card-body'>" .
+        $row['loan_type_cd'] . " Loan" ."<br>
+        Amount: $" . round($row['loan_amount'] , 2) . "<br>
         Months to Pay: " . $row['loan_term_months']. "<br>
+        Monthly Payment: $" . round($row['monthly_payment'] , 2) . "<br>
         Interest Rate: " . $row['interest_rate'] . "<br>
         </div>
         </div>
