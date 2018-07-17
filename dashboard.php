@@ -8,7 +8,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php
 <div class="col-md-9" style="float: left;">
   <a class="btn btn-primary mx-4" href="/bdpa-loans/forms/references.php">Add Reference</a>
   <a class="btn btn-primary" href="/bdpa-loans/forms/loanapp_f.php">Create Loan</a>
-  <div class='card-group'>
+  <br>
+  <br>
+  <div class='card-deck' style="float: left;">
+
   <?php
   global $dbh;
     $email = $_SESSION['email'];
@@ -38,7 +41,7 @@ SQL;
 SQL;
       			$img_result = $dbh->query($img_sql);
       			$img_row = $img_result->fetch_assoc();
-      			$img = base64_encode($img_row);
+      			$img = base64_encode($img_row['loan_type_image']);
                   $row['loan_type_cd'] = "House";
                   break;
           case 'M':
@@ -47,7 +50,7 @@ SQL;
 SQL;
       			$img_result = $dbh->query($img_sql);
       			$img_row = $img_result->fetch_assoc();
-      			$img = base64_encode($img_row);
+      			$img = base64_encode($img_row['loan_type_image']);
                   $row['loan_type_cd'] = "Motorcycle";
                   break;
           case 'B':
@@ -56,7 +59,7 @@ SQL;
 SQL;
       			$img_result = $dbh->query($img_sql);
       			$img_row = $img_result->fetch_assoc();
-      			$img = base64_encode($img_row);
+      			$img = base64_encode($img_row['loan_type_image']);
                   $row['loan_type_cd'] = "Boat";
                   break;
           case 'S':
@@ -65,7 +68,7 @@ SQL;
 SQL;
       			$img_result = $dbh->query($img_sql);
       			$img_row = $img_result->fetch_assoc();
-      			$img = base64_encode($img_row);
+      			$img = base64_encode($img_row['loan_type_image']);
                   $row['loan_type_cd'] = "Student";
                   break;
           default:
@@ -75,7 +78,7 @@ SQL;
         $echo_statement =
         "
         <div class='card'>
-          <img src='data:image/jpeg;base64,$img' class='card-img-top' style='max-width:200px;'>
+          <img src='data:image/jpeg;base64,$img' class='card-img-top' style='max-width:300px;'>
           <div class='card-body'>" . $row['loan_type_cd'] . " Loan" ."<br>
             Amount: $" . round($row['loan_amount'] , 2) . "<br>
             Months to Pay: " . $row['loan_term_months']. "<br>
@@ -84,14 +87,15 @@ SQL;
           </div>
         </div>
         <br>";
+        echo $echo_statement;
+        $i++;
       }
-      echo $echo_statement;
-      $i++;
     } else {
       echo "<div class='alert alert-info my-4'>You currently have no loans.</div>";
     }
 
   ?>
+  </div>
 </div>
 
 <div class="col-md-3" style="float: right">
