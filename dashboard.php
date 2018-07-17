@@ -8,6 +8,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php
 <div class="col-md-9" style="float: left;">
   <a class="btn btn-primary mx-4" href="/bdpa-loans/forms/references.php">Add Reference</a>
   <a class="btn btn-primary" href="/bdpa-loans/forms/loanapp_f.php">Create Loan</a>
+  <div class='card-group'>
   <?php
   global $dbh;
     $email = $_SESSION['email'];
@@ -23,64 +24,64 @@ SQL;
       while($row = $result->fetch_assoc()) {
         switch ($row['loan_type_cd']) {
           case 'A':
-			$img_sql = <<<SQL 
-				select loan_type_image from loan_types where loan_type_cd = 'A';
+      			$img_sql = <<<SQL
+      				select loan_type_image from loan_types where loan_type_cd = 'A';
 SQL;
-			$img_result = $dbh->query($img_sql);
-			$img_row = $img_result->fetch_assoc();
-			$img = base64_encode($img_row);
-            $row['loan_type_cd'] = "Automobile";
-            break;
+      			$img_result = $dbh->query($img_sql);
+      			$img_row = $img_result->fetch_assoc();
+      			$img = base64_encode($img_row['loan_type_image']);
+                  $row['loan_type_cd'] = "Automobile";
+                  break;
           case 'H':
-		  $img_sql = <<<SQL 
-				select loan_type_image from loan_types where loan_type_cd = 'H';
+      		  $img_sql = <<<SQL
+      				select loan_type_image from loan_types where loan_type_cd = 'H';
 SQL;
-			$img_result = $dbh->query($img_sql);
-			$img_row = $img_result->fetch_assoc();
-			$img = base64_encode($img_row);
-            $row['loan_type_cd'] = "House";
-            break;
+      			$img_result = $dbh->query($img_sql);
+      			$img_row = $img_result->fetch_assoc();
+      			$img = base64_encode($img_row);
+                  $row['loan_type_cd'] = "House";
+                  break;
           case 'M':
-		  $img_sql = <<<SQL 
-				select loan_type_image from loan_types where loan_type_cd = 'M';
+      		  $img_sql = <<<SQL
+      				select loan_type_image from loan_types where loan_type_cd = 'M';
 SQL;
-			$img_result = $dbh->query($img_sql);
-			$img_row = $img_result->fetch_assoc();	
-			$img = base64_encode($img_row);
-            $row['loan_type_cd'] = "Motorcycle";
-            break;
+      			$img_result = $dbh->query($img_sql);
+      			$img_row = $img_result->fetch_assoc();
+      			$img = base64_encode($img_row);
+                  $row['loan_type_cd'] = "Motorcycle";
+                  break;
           case 'B':
-		  $img_sql = <<<SQL 
-				select loan_type_image from loan_types where loan_type_cd = 'B';
+      		  $img_sql = <<<SQL
+      				select loan_type_image from loan_types where loan_type_cd = 'B';
 SQL;
-			$img_result = $dbh->query($img_sql);
-			$img_row = $img_result->fetch_assoc();
-			$img = base64_encode($img_row);
-            $row['loan_type_cd'] = "Boat";
-            break;
+      			$img_result = $dbh->query($img_sql);
+      			$img_row = $img_result->fetch_assoc();
+      			$img = base64_encode($img_row);
+                  $row['loan_type_cd'] = "Boat";
+                  break;
           case 'S':
-		  $img_sql = <<<SQL 
-				select loan_type_image from loan_types where loan_type_cd = 'A';
+      		  $img_sql = <<<SQL
+      				select loan_type_image from loan_types where loan_type_cd = 'A';
 SQL;
-			$img_result = $dbh->query($img_sql);
-			$img_row = $img_result->fetch_assoc();
-			$img = base64_encode($img_row);
-            $row['loan_type_cd'] = "Student";
-            break;
+      			$img_result = $dbh->query($img_sql);
+      			$img_row = $img_result->fetch_assoc();
+      			$img = base64_encode($img_row);
+                  $row['loan_type_cd'] = "Student";
+                  break;
           default:
             $row['loan_type_cd'] = "Unidentified Loan";
             break;
         }
         $echo_statement =
-        "<div class='card my-4'>
-        <div class='card-header'>Loan " . $i . "</div>
-        <div class='card-body'>" .
-        $row['loan_type_cd'] . " Loan" ."<br>
-        Amount: $" . round($row['loan_amount'] , 2) . "<br>
-        Months to Pay: " . $row['loan_term_months']. "<br>
-        Monthly Payment: $" . round($row['monthly_payment'] , 2) . "<br>
-        Interest Rate: " . $row['interest_rate'] . "<br>
-        </div>
+        "
+        <div class='card'>
+          <img src='data:image/jpeg;base64,$img' class='card-img-top' style='max-width:200px;'>
+          <div class='card-body'>" . $row['loan_type_cd'] . " Loan" ."<br>
+            Amount: $" . round($row['loan_amount'] , 2) . "<br>
+            Months to Pay: " . $row['loan_term_months']. "<br>
+            Monthly Payment: $" . round($row['monthly_payment'] , 2) . "<br>
+            Interest Rate: " . $row['interest_rate'] . "<br>
+          </div>
         </div>
         <br>";
       }
