@@ -2,8 +2,11 @@
 $page_title = "Dashboard";
 include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php';
-?>
 
+if (!isset($_SESSION['customer_id'])) {
+  header("Location: forms/signup.php");
+}
+?>
 
 <div class="col-md-9" style="float: left;">
   <a class="btn btn-primary mx-4" href="/bdpa-loans/forms/references.php">Add Reference</a>
