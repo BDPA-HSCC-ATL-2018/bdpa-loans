@@ -11,7 +11,7 @@ SQL;
 $result = $dbh->query($sql);
 
 if($result) {
-  echo "<select class='form-control col-sm-6' name='loanlength'>";
+  echo "<select class='form-control' name='loanlength' id='loanlength'>";
   while ($row = $result->fetch_assoc()) {
     $value = $row['loan_term_months'];
     echo "<option value=\"$value\">$value</option>";

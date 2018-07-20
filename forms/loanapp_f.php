@@ -59,8 +59,9 @@ function termloan() {
                         <input type="number" class="form-control col-sm-9" name="amount">
                     </div>
                     <!--Loan Length-->
-                    <div class="form-group row" id="loanl">
-                      <label for="loanlenght" class="col-sm-3">Loan Lenght</label>
+                    <div class="form-group row">
+                      <label for="loanlength" class="col-sm-3">Loan Length</label>
+                      <div id="loanl"></div>
                     </div>
                     <br/>
                     <!-- Optional Add-ons for a loan -->
