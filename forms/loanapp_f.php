@@ -57,7 +57,7 @@ function termloan() {
                     <div class="form-group row">
                         <label for="username" class="col-sm-3">Loan Amount</label>
                         <input type="number" class="form-control col-sm-9" name="amount">
-                    </div c>
+                    </div>
                     <!--Loan Length-->
                     <div class="form-group row" id="loanl">
 
@@ -65,16 +65,40 @@ function termloan() {
                     <br/>
                     <!-- Optional Add-ons for a loan -->
                     <!-- extended warranty -->
-                    <div class="form-group row">
-                        <input type="checkbox" class="form-control col-sm-9" name="ew" id="ew">Extended Warranty
+                
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="loanaddon">Extended Warranty</label>
+                      </div>
+                      <select class="custom-select" id="ew">
+                        <option selected>Choose</option>
+                        <option value="y">Yes</option>
+                        <option value="n">No</option>
+                      </select>
                     </div>
                     <!-- payoff insurance -->
-                    <div class="form-group row">
-                        <input type="checkbox" class="form-control col-sm-9" name="pi" id="pi">Payoff Insurance
+
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="loanaddon">Payoff Insurance</label>
+                      </div>
+                      <select class="custom-select" id="pi">
+                        <option selected>Choose</option>
+                        <option value="y">Yes</option>
+                        <option value="n">No</option>
+                      </select>
                     </div>
                     <!-- Monthly Payment Insurance -->
-                    <div class="form-group row">
-                        <input type="checkbox" class="form-control col-sm-9" name="mi" id="mi">Monthly Payment Insurance
+
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="loanaddon">Monthly Payment Insurance</label>
+                      </div>
+                      <select class="custom-select" id="mi">
+                        <option selected>Choose</option>
+                        <option value="y">Yes</option>
+                        <option value="n">No</option>
+                      </select>
                     </div>
 
                     <button class="btn btn-primary">Submit</button>
