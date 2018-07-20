@@ -45,7 +45,7 @@ function termloan() {
                     <!--Type-->
                     <div class="form-group row">
                         <label for="username" class="col-sm-3">Loan Type</label>
-                        <select name="loantype" class="form-control col-sm-9" style="float:right" onchange="termloan()" id="dropdown">
+                        <select name="loantype" class="form-control col-sm-9" style="float:right" onchange="termloan()" id="dropdown" value="A">
                             <option value="A">Automobile</option>
                             <option value="H">Home</option>
                             <option value="M">Motorcycle</option>
@@ -65,7 +65,7 @@ function termloan() {
                     <br/>
                     <!-- Optional Add-ons for a loan -->
                     <!-- extended warranty -->
-                
+
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <label class="input-group-text" for="loanaddon">Extended Warranty</label>
@@ -105,5 +105,9 @@ function termloan() {
                 </form>
             </div>
         </div>
+
+        <script>
+          termloan();
+        </script>
     </body>
 </html>
