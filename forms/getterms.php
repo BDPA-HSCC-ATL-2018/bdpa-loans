@@ -1,5 +1,6 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/db.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
 
 $q = $_REQUEST['q'];
 
@@ -10,12 +11,12 @@ SQL;
 $result = $dbh->query($sql);
 
 if($result) {
-  echo "<select name='loanlength'>";
+  echo "<select class='dropdown' name='loanlength'>";
   while ($row = $result->fetch_assoc()) {
     $value = $row['loan_term_months'];
     echo "<option value=\"$value\">$value</option>";
   }
 echo "</select>";
 }
-
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_footer.php';
 ?>
