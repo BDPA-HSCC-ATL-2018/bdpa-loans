@@ -19,21 +19,21 @@ if ($reference_check_result->num_rows > 0) {
 <!-- This code allows the user to view all the loan terms for each loan type (Ajax code) -->
 <script>
 function termloan() {
-  var str = document.getElementById("dropdown").value;
-  if (str == "") {
+  var str = document.getElementById("dropdown").value; //Get the value of the loan-type dropdown.
+  if (str == "") { //If the string isn't equal to anything, set the element with loanl (the div above) to nothing.
     document.getElementById("loanl").innerHTML = "";
     return;
   } else {
     if (window.XMLHttpRequest) {
-      xmlhttp = new XMLHttpRequest();
+      xmlhttp = new XMLHttpRequest(); //Create a new XMLHttpRequest object and store it in xmlhttp.
     }
   }
   xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("loanl").innerHTML = this.responseText;
+    if (this.readyState == 4 && this.status == 200) { //If the website is prepared
+      document.getElementById("loanl").innerHTML = this.responseText; //Set loanl equal to the response we get from the website. The response we get is equal to whatever the website puts out. In this case, it's the echo statements we have.
     }
   };
-  xmlhttp.open("GET","getterms.php?q="+str,true);
+  xmlhttp.open("GET","getterms.php?q="+str,true); //This is like our form in HTML. We have our method, action, and then set the last one to true (I think it's asynchronicity. (I don't know if that's a word.)).
   xmlhttp.send();
 }
 </script>
