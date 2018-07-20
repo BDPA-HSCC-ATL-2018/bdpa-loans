@@ -60,7 +60,7 @@ function termloan() {
                     </div>
                     <!--Loan Length-->
                     <div class="form-group row" id="loanl">
-                      <label for="loanl" class="col-sm-3">Loan Lenght</label>
+                      <label for="loanlenght" class="col-sm-3">Loan Lenght</label>
                     </div>
                     <br/>
                     <!-- Optional Add-ons for a loan -->
