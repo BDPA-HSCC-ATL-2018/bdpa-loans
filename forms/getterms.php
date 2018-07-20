@@ -1,5 +1,6 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/db.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
 
 $q = $_REQUEST['q'];
 
@@ -17,5 +18,5 @@ if($result) {
   }
 echo "</select>";
 }
-
+include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_footer.php';
 ?>

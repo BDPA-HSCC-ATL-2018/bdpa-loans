@@ -213,7 +213,7 @@ SQL;
   if ($result) {
     header("Location: dashboard.php");
   } else {
-    echo "nope. try again.";
+    echo mysqli_error($dbh);
   }
 }
 ?>
