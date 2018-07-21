@@ -112,6 +112,7 @@ function loanapp() {
         SELECT customer_id, annual_income FROM customers WHERE email_id = "$email";
 SQL;
 
+
     $cust_result = $dbh->query($cust_sql);
 
     if ($cust_result) {
@@ -125,61 +126,88 @@ SQL;
     $amount = $_REQUEST['amount'];
     $loanterm = $_REQUEST['loanlength'];
     $L_Int = 0;
+    $monthly_payment = 0;
 
-        switch ($loantype) {
-            case 'A':
-                if (!($amount >= (.50 * $salary)))
-                    //Then the loan can be made
-                    $L_Int = 1.0625;
-                    $amount = $amount * 1.0625;
-                    $monthly_payment = ($amount / $loanterm);
-                break;
-            case 'H':
-                if (!($amount >= (.027 * $salary)))
-                    //Then the loan can be made
-                    $L_Int = 1.0625;
-                    $amount = $amount * 1.0625;
-                    $monthly_payment = ($amount / $loanterm);
-                break;
-            case 'B':
-                if (!($amount >= (.015 * $salary)))
-                    //Then the loan can be made
-                    $L_Int = 1.0675;
-                    $amount = $amount * 1.0675;
-                    $monthly_payment = ($amount / $loanterm);
-                break;
-            case 'M':
-                if (!($amount >= (.015 * $salary)))
-                    //Then the loan can be made
-                    $L_Int = 1.0575;
-                    $amount = $amount * 1.0575;
-                    $monthly_payment = ($amount / $loanterm);
-                break;
-            case 'S':
-                if (!($amount >= (.15 * $salary)))
-                    //Then the loan can be made
-                    $L_Int = 1.055;
-                    $amount = $amount * 1.055;
-                    $monthly_payment = ($amount / $loanterm);
-                break;
-        }
+    $loan_interest_terms_sql = <<<SQL
+      SELECT interest_rate FROM loan_interest_terms WHERE loan_type_cd = "$loantype" and loan_term_months = $loanterm;
+SQL;
 
+    $loan_interest_terms_result = $dbh->query($loan_interest_terms_sql);
+
+
+    if ($loan_interest_terms_result) {
+      $loan_interest_terms_row = $loan_interest_terms_result->fetch_assoc();
+      $L_Int = $loan_interest_terms_row['interest_rate'];
+    } else {
+      echo mysqli_error($dbh);
+    }
+
+    var_dump($loantype);
+
+    switch ("$loantype") {
+        case 'A':
+            if ($amount < (.50 * $salary)) {
+              //Then the loan can be made
+              $amount = $amount * (($L_Int / 10) + 1); //Converts the interest rate to a decimal and adds 1 to it.
+              echo '$L_Int: ' . $L_Int;
+              $monthly_payment = ($amount / $loanterm);
+              echo "A worked.";
+            }
+            break;
+        case 'H':
+            if ($amount < (.027 * $salary)) {
+              //Then the loan can be made
+              $amount = $amount * (($L_Int / 10) + 1);
+              $monthly_payment = ($amount / $loanterm);
+              echo "H worked.";
+            }
+            break;
+        case 'B':
+            if ($amount < (.015 * $salary)) {
+              //Then the loan can be made
+              $amount = $amount * (($L_Int / 10) + 1);
+              $monthly_payment = ($amount / $loanterm);
+              echo "B worked.";
+            }
+            break;
+        case 'M':
+            if ($amount < (.015 * $salary)) {
+              //Then the loan can be made
+              $amount = $amount * (($L_Int / 10) + 1);
+              $monthly_payment = ($amount / $loanterm);
+            }
+            break;
+        case 'S':
+            if ($amount < (.15 * $salary)) {
+              //Then the loan can be made
+              $amount = $amount * (($L_Int / 10) + 1);
+              echo '$L_Int: ' . $L_int;
+              $monthly_payment = ($amount / $loanterm);
+            }
+            break;
+        default:
+          echo "None of the cases worked.";
+        break;
+    }
+
+        echo '$L_Int: ' . $L_Int;
         $math_sql = <<<SQL
-        INSERT INTO loan_application(customer_id, loan_type_cd, loan_amount, monthly_payment, loan_term_months, interest_rate)
-    VALUES($cust_id, "$loantype", $amount, $monthly_payment, $loanterm, $L_Int)
+          INSERT INTO loan_application(customer_id, loan_type_cd, loan_amount, monthly_payment, loan_term_months, interest_rate)
+          VALUES($cust_id, "$loantype", $amount, $monthly_payment, $loanterm, $L_Int);
 SQL;
         $result = $dbh->query($math_sql);
 
         if ($result) {
             header("Location: dashboard.php");
         } else {
-            echo ("It didn't work. (loanapp) <br>");
-            echo ($cust_id);
-            echo $loantype;
-            echo $amount;
-            echo $monthly_payment;
-            echo $loanterm;
-            echo $L_Int;
+          echo ("It didn't work. (loanapp) <br>");
+          echo "Customer ID: " . $cust_id;
+          echo "<br> Loan Type: " . $loantype;
+          echo "<br> Amount: " . $amount;
+          echo "<br> Monthly Payment: " . $monthly_payment;
+          echo "<br> Loan Term: " . $loanterm;
+          echo "<br> Interest Rate: " . $L_Int;
+          echo "<br> Error: " . mysqli_error($dbh);
         }
     }
 }
