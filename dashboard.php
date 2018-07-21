@@ -26,8 +26,11 @@ SQL;
     $result = $dbh->query($sql);
 
     if ($result->num_rows > 0) {
-      $i = 1;
+      $new_row = 0;
       while($row = $result->fetch_assoc()) {
+        if ($new_row % 4 == 0) {
+          echo "<div class='row'>";
+        }
         switch ($row['loan_type_cd']) {
           case 'A':
       			$img_sql = <<<SQL
@@ -80,7 +83,7 @@ SQL;
         }
         $echo_statement =
         "
-        <div class='card'>
+        <div class='card my-4'>
           <img src='data:image/jpeg;base64,$img' class='card-img-top' style='max-width:300px;'>
           <div class='card-body'>" . $row['loan_type_cd'] . " Loan" ."<br>
             Amount: $" . round($row['loan_amount'] , 2) . "<br>
@@ -91,8 +94,11 @@ SQL;
         </div>
         <br>";
         echo $echo_statement;
-        $i++;
-      }
+        if ($new_row % 4 == 3) {
+          echo "</div>";
+        }
+        $new_row++;
+      } //End of While Loop
     } else {
       echo "<div class='alert alert-info my-4'>You currently have no loans.</div>";
     }
@@ -112,6 +118,7 @@ SQL;
 SQL;
         $personal_result = $dbh->query($personal_sql);
 
+        $new_row = 0;
         if ($personal_result) {
           while ($row = $personal_result->fetch_assoc()) {
             $personal_echo = "
@@ -123,9 +130,8 @@ SQL;
             Zip Code: " . $row['postal_cd'] . "<br><br>
             ";
           }
-          echo $personal_echo;
-        }
 
+          }
       ?></p>
     </div>
   </div>
