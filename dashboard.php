@@ -130,7 +130,7 @@ SQL;
             Zip Code: " . $row['postal_cd'] . "<br><br>
             ";
           }
-
+          echo $personal_echo;
           }
       ?></p>
     </div>
