@@ -105,6 +105,7 @@ SQL;
   <div class="card">
     <div class="card-header">Personal Information</div>
     <div class="card-body">
+      <p class="card-text font-weight-bold">
       <?php
         $personal_sql = <<<SQL
           SELECT * FROM customers WHERE customer_id = $cust_id;
@@ -125,7 +126,7 @@ SQL;
           echo $personal_echo;
         }
 
-      ?>
+      ?></p>
     </div>
   </div>
 </div>
