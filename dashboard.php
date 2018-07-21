@@ -129,3 +129,6 @@ SQL;
     </div>
   </div>
 </div>
+<?php
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_footer.php';
+?>
