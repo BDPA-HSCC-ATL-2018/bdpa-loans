@@ -70,7 +70,7 @@ SQL;
                   break;
           case 'S':
       		  $img_sql = <<<SQL
-      				select loan_type_image from loan_types where loan_type_cd = 'A';
+      				select loan_type_image from loan_types where loan_type_cd = 'S';
 SQL;
       			$img_result = $dbh->query($img_sql);
       			$img_row = $img_result->fetch_assoc();
@@ -137,5 +137,5 @@ SQL;
   </div>
 </div>
 <?php
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/web-assets/tpl/app_footer.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_footer.php';
 ?>
