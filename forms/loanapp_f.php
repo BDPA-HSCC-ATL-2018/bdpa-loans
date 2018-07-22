@@ -14,6 +14,29 @@ if ($reference_check_result->num_rows > 0) {
 } else {
   header("Location: references.php");
 }
+
+$customer_id = $_SESSION['customer_id'];
+$cust_sql = <<<SQL
+  SELECT annual_income FROM customers WHERE customer_id = $customer_id;
+SQL;
+
+$cust_result = $dbh->query($cust_sql);
+
+if ($cust_result && ($row = $cust_result->fetch_assoc())) {
+  $annual_income = $row['annual_income'];
+}
+
+if (isset($_REQUEST['alert'])) {
+  switch($_REQUEST['alert']) {
+    case 'loantoobig':
+    $loantype = $_REQUEST['loantype'];
+    $minrequirement = $_REQUEST['minrequirement'];
+    $monthly_payment = $_REQUEST['monthly_payment'];
+    $salary_percentage = $annual_income * ($minrequirement / 100);
+    echo "<div class='alert alert-danger' role='alert'>The loan was too big to be accepted. Monthly $loantype loan payments cannot be greater than $minrequirement% of your salary. After calculations, the monthly payment was $monthly_payment, but $minrequirement% of your salary is $$salary_percentage.</div>";
+    break;
+  }
+}
 ?>
 
 <!-- This code allows the user to view all the loan terms for each loan type (Ajax code) -->
