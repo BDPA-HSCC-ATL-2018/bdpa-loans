@@ -155,71 +155,42 @@ SQL;
           if (!$monthly_payment <= (.50 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
             header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=50&monthly_payment=$monthly_payment&loantype=automobile");
           }
-            break;
+        break;
         case 'H':
-            if ($amount < (.027 * $salary)) {
-              //Then the loan can be made
-              $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
-              $monthly_I_str = number_format($monthly_I, 2);
-              echo '$monthly_I_str' . $monthly_I_str . '<br></br>';
-
-              echo '$monthly_I: ' . $monthly_I . '<br></br>';
-              echo '$L_Int' . $L_Int . '<br></br>';
-              $monthly_payment = (($amount / $loanterm) + $monthly_I);
-              $monthly_payment_str = number_format($monthly_payment, 2);
-              echo '$monthly_payment_str' . $monthly_payment_str . '<br></br>';
-
-              echo "H worked.";
-            }
-            break;
+          $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+          $monthly_I_str = number_format($monthly_I, 2);
+          $monthly_payment = (($amount / $loanterm) + $monthly_I);
+          $monthly_payment_str = number_format($monthly_payment, 2);
+          if (!$monthly_payment <= (.027 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
+            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=027&monthly_payment=$monthly_payment&loantype=automobile");
+          }
+        break;
         case 'B':
-            if ($amount < (.015 * $salary)) {
-              //Then the loan can be made
-              $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
-              $monthly_I_str = number_format($monthly_I, 2);
-              echo '$monthly_I_str' . $monthly_I_str . '<br></br>';
-
-              echo '$monthly_I: ' . $monthly_I . '<br></br>';
-              echo '$L_Int' . $L_Int . '<br></br>';
-              $monthly_payment = (($amount / $loanterm) + $monthly_I);
-              $monthly_payment_str = number_format($monthly_payment, 2);
-              echo '$monthly_payment_str' . $monthly_payment_str . '<br></br>';
-
-              echo "B worked.";
-            }
-            break;
+          $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+          $monthly_I_str = number_format($monthly_I, 2);
+          $monthly_payment = (($amount / $loanterm) + $monthly_I);
+          $monthly_payment_str = number_format($monthly_payment, 2);
+          if (!$monthly_payment <= (.015 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
+            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=015&monthly_payment=$monthly_payment&loantype=automobile");
+          }
+        break;
         case 'M':
-            if ($amount < (.015 * $salary)) {
-              //Then the loan can be made
-              $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
-              $monthly_I_str = number_format($monthly_I, 2);
-              echo '$monthly_I_str' . $monthly_I_str . '<br></br>';
-
-              echo '$monthly_I: ' . $monthly_I . '<br></br>';
-              echo '$L_Int' . $L_Int . '<br></br>';
-              $monthly_payment = (($amount / $loanterm) + $monthly_I);
-              $monthly_payment_str = number_format($monthly_payment, 2);
-              echo '$monthly_payment_str' . $monthly_payment_str . '<br></br>';
-
-            }
-            break;
+          $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+          $monthly_I_str = number_format($monthly_I, 2);
+          $monthly_payment = (($amount / $loanterm) + $monthly_I);
+          $monthly_payment_str = number_format($monthly_payment, 2);
+          if (!$monthly_payment <= (.015 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
+            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=015&monthly_payment=$monthly_payment&loantype=automobile");
+          }
+        break;
         case 'S':
-            if ($amount < (.15 * $salary)) {
-              //Then the loan can be made
-              $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
-              $monthly_I_str = number_format($monthly_I, 2);
-              echo '$monthly_I_str' . $monthly_I_str . '<br></br>';
-
-              echo '$monthly_I: ' . $monthly_I . '<br></br>';
-              echo '$L_Int' . $L_Int . '<br></br>';
-              $monthly_payment = (($amount / $loanterm) + $monthly_I);
-              $monthly_payment_str = number_format($monthly_payment, 2);
-              echo '$monthly_payment_str' . $monthly_payment_str . '<br></br>';
-
-            }
-            break;
-        default:
-          echo "None of the cases worked.";
+          $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+          $monthly_I_str = number_format($monthly_I, 2);
+          $monthly_payment = (($amount / $loanterm) + $monthly_I);
+          $monthly_payment_str = number_format($monthly_payment, 2);
+          if (!$monthly_payment <= (.15 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
+            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=15&monthly_payment=$monthly_payment&loantype=automobile");
+          }
         break;
     }
 
