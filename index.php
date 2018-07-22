@@ -16,7 +16,7 @@ if (array_key_exists($action, $options)) {
     $function = $options[$action];
     call_user_func($function);
 } else {
-    header("Location: forms/signup.php");
+    header("Location: forms/login.php");
 }
 
 //Valid Password
@@ -126,7 +126,7 @@ SQL;
     $amount = $_REQUEST['amount'];
     $loanterm = $_REQUEST['loanlength'];
     $L_Int = 0;
-    $monthly_payment = 0;
+
 
     $loan_interest_terms_sql = <<<SQL
       SELECT interest_rate FROM loan_interest_terms WHERE loan_type_cd = "$loantype" and loan_term_months = $loanterm;
@@ -148,41 +148,79 @@ SQL;
         case 'A':
             if ($amount < (.50 * $salary)) {
               //Then the loan can be made
-              $amount = $amount * (($L_Int / 10) + 1); //Converts the interest rate to a decimal and adds 1 to it.
-              echo '$L_Int: ' . $L_Int;
-              $monthly_payment = ($amount / $loanterm);
+              $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+              $monthly_I_str = number_format($monthly_I, 2);
+              echo '$monthly_I_str' . $monthly_I_str . '<br></br>';
+
+              echo '$monthly_I: ' . $monthly_I . '<br></br>';
+              echo '$L_Int' . $L_Int . '<br></br>';
+              $monthly_payment = (($amount / $loanterm) + $monthly_I);
+              $monthly_payment_str = number_format($monthly_payment, 2);
+              echo '$monthly_payment_str' . $monthly_payment_str . '<br></br>';
+
               echo "A worked.";
             }
             break;
         case 'H':
             if ($amount < (.027 * $salary)) {
               //Then the loan can be made
-              $amount = $amount * (($L_Int / 10) + 1);
-              $monthly_payment = ($amount / $loanterm);
+              $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+              $monthly_I_str = number_format($monthly_I, 2);
+              echo '$monthly_I_str' . $monthly_I_str . '<br></br>';
+
+              echo '$monthly_I: ' . $monthly_I . '<br></br>';
+              echo '$L_Int' . $L_Int . '<br></br>';
+              $monthly_payment = (($amount / $loanterm) + $monthly_I);
+              $monthly_payment_str = number_format($monthly_payment, 2);
+              echo '$monthly_payment_str' . $monthly_payment_str . '<br></br>';
+
               echo "H worked.";
             }
             break;
         case 'B':
             if ($amount < (.015 * $salary)) {
               //Then the loan can be made
-              $amount = $amount * (($L_Int / 10) + 1);
-              $monthly_payment = ($amount / $loanterm);
+              $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+              $monthly_I_str = number_format($monthly_I, 2);
+              echo '$monthly_I_str' . $monthly_I_str . '<br></br>';
+
+              echo '$monthly_I: ' . $monthly_I . '<br></br>';
+              echo '$L_Int' . $L_Int . '<br></br>';
+              $monthly_payment = (($amount / $loanterm) + $monthly_I);
+              $monthly_payment_str = number_format($monthly_payment, 2);
+              echo '$monthly_payment_str' . $monthly_payment_str . '<br></br>';
+
               echo "B worked.";
             }
             break;
         case 'M':
             if ($amount < (.015 * $salary)) {
               //Then the loan can be made
-              $amount = $amount * (($L_Int / 10) + 1);
-              $monthly_payment = ($amount / $loanterm);
+              $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+              $monthly_I_str = number_format($monthly_I, 2);
+              echo '$monthly_I_str' . $monthly_I_str . '<br></br>';
+
+              echo '$monthly_I: ' . $monthly_I . '<br></br>';
+              echo '$L_Int' . $L_Int . '<br></br>';
+              $monthly_payment = (($amount / $loanterm) + $monthly_I);
+              $monthly_payment_str = number_format($monthly_payment, 2);
+              echo '$monthly_payment_str' . $monthly_payment_str . '<br></br>';
+
             }
             break;
         case 'S':
             if ($amount < (.15 * $salary)) {
               //Then the loan can be made
-              $amount = $amount * (($L_Int / 10) + 1);
-              echo '$L_Int: ' . $L_int;
-              $monthly_payment = ($amount / $loanterm);
+              $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+              $monthly_I_str = number_format($monthly_I, 2);
+              echo '$monthly_I_str' . $monthly_I_str . '<br></br>';
+
+              echo '$monthly_I: ' . $monthly_I . '<br></br>';
+              echo '$L_Int' . $L_Int . '<br></br>';
+              $monthly_payment = (($amount / $loanterm) + $monthly_I);
+              $monthly_payment_str = number_format($monthly_payment, 2);
+              echo '$monthly_payment_str' . $monthly_payment_str . '<br></br>';
+
             }
             break;
         default:
@@ -195,20 +233,29 @@ SQL;
           INSERT INTO loan_application(customer_id, loan_type_cd, loan_amount, monthly_payment, loan_term_months, interest_rate)
           VALUES($cust_id, "$loantype", $amount, $monthly_payment, $loanterm, $L_Int);
 SQL;
+
         $result = $dbh->query($math_sql);
 
         if ($result) {
             header("Location: dashboard.php");
+            echo "Customer ID: " . $cust_id;
+            echo "<br> Loan Type: " . $loantype;
+            echo "<br> Amount: " . $amount;
+            echo "<br> Monthly Payment: " . $monthly_payment;
+            echo "<br> Loan Term: " . $loanterm;
+            echo "<br> Interest Rate: " . $L_Int;
+            echo "<br> Monthly Interest" . $monthly_I;
         } else {
           echo ("It didn't work. (loanapp) <br>");
+          var_dump($loantype == 'H');
           echo "Customer ID: " . $cust_id;
           echo "<br> Loan Type: " . $loantype;
           echo "<br> Amount: " . $amount;
           echo "<br> Monthly Payment: " . $monthly_payment;
           echo "<br> Loan Term: " . $loanterm;
           echo "<br> Interest Rate: " . $L_Int;
-          echo "<br> Error: " . mysqli_error($dbh);
-        }
+        //  echo "<br> Error: " . mysqli_error($dbh);
+      //  }
     }
 }
 
@@ -243,5 +290,6 @@ SQL;
   } else {
     echo mysqli_error($dbh);
   }
+}
 }
 ?>
