@@ -2,6 +2,10 @@
 $page_title = "Sign Up";
 include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_header.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_nav.php';
+
+if (isset($_SESSION['customer_id'])) {
+  header("Location: ../dashboard.php");
+}
 ?>
 <h1><?php echo $page_title ?></h1>
 <div class="alert alert-info my-4" role="alert">Already have an account? <a href="/bdpa-loans/forms/login.php">Log In</a></div>
