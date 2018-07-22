@@ -14,7 +14,17 @@ if (isset($_SESSION['customer_id'])) {
   <div class="card border-info">
     <div class="card-header">Log In</div>
     <div class="card-body">
-      <div class="alert alert-info">Please enter your email and password to log in</div>
+      <?php
+      if (isset($_REQUEST['alert'])) {
+        switch($_REQUEST['alert']) {
+          case 'wronglogin':
+            echo "<div class='alert alert-danger' role='alert'>The username and password combination did not match.</div>";
+          break;
+        }
+      } else {
+        echo "<div class='alert alert-primary alert-dismissible'>Please enter your email and password to log in.</div>";
+      }
+      ?>
       <div class="form-group row">
         <label for="email_id" class="col-sm-2">Email</label>
         <div class= "col-md-6">

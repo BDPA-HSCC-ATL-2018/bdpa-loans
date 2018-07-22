@@ -87,8 +87,8 @@ SQL;
 
     while ($row = $result->fetch_assoc()) {
         $hashed_pw = $row['login_pw'];
-        $_SESSION['customer_id'] = $row['customer_id'];
-        $_SESSION['email'] = $row['email_id'];
+        $before_login_check_id = $row['customer_id'];
+        $before_login_check_email = $row['email_id'];
     }
 
     if (!isset($hashed_pw)) {
@@ -97,8 +97,10 @@ SQL;
 
     if (password_verify($pw, $hashed_pw)) {
         header("Location: dashboard.php"); //Changed to a redirect because refreshing the page would cause issues.
+        $_SESSION['customer_id'] = $before_login_check_id;
+        $_SESSION['email'] = $before_login_check_email;
     } else {
-        var_dump(password_verify($pw, $hashed_pw));
+        header("Location: forms/login.php?alert=wronglogin");
     }
 }
 
@@ -237,14 +239,9 @@ SQL;
         $result = $dbh->query($math_sql);
 
         if ($result) {
-            header("Location: dashboard.php");
-            echo "Customer ID: " . $cust_id;
-            echo "<br> Loan Type: " . $loantype;
-            echo "<br> Amount: " . $amount;
-            echo "<br> Monthly Payment: " . $monthly_payment;
-            echo "<br> Loan Term: " . $loanterm;
-            echo "<br> Interest Rate: " . $L_Int;
-            echo "<br> Monthly Interest" . $monthly_I;
+
+          header("Location: dashboard.php");
+
         } else {
           echo ("It didn't work. (loanapp) <br>");
           var_dump($loantype == 'H');
@@ -255,7 +252,8 @@ SQL;
           echo "<br> Loan Term: " . $loanterm;
           echo "<br> Interest Rate: " . $L_Int;
         //  echo "<br> Error: " . mysqli_error($dbh);
-      //  }
+      //  }+
+
     }
 }
 
@@ -263,7 +261,7 @@ SQL;
 function logout() {
   session_unset();
   session_destroy();
-  header("Location: forms/signup.php");
+  header("Location: forms/login.php");
 }
 
 //References
