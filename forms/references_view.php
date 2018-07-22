@@ -28,15 +28,15 @@ SQL;
       <p class="card-text font-weight-bold">
       <?php
         $view_ref_sql = <<<SQL
-          SELECT * FROM reference WHERE customer_id = $cust_id;
+          SELECT * FROM customer_reference WHERE reference_id = $cust_id;
 SQL;
         $ref_result = $dbh->query($view_ref_sql);
 
         $ref_row = 0;
         if ($ref_result) {
           while ($row = $ref_result->fetch_assoc()) {
-            $personal_echo = "
-            Name: " . $row['first_name'] . " " . $row['last_name'] . "<br><br>
+            $ref_echo = "
+            Name: " . $row['ref_first_name'] . " " . $row['ref_last_name'] . "<br><br>
             Email: " . $row['email_id'] . "<br><br>
             Street Address: " . $row['address_line_one'] . "<br><br>
             City: " . $row['city_name'] . "<br><br>
@@ -44,5 +44,5 @@ SQL;
             Zip Code: " . $row['postal_cd'] . "<br><br>
             ";
           }
-          echo $personal_echo;
+          echo $ref_echo;
           }
