@@ -148,20 +148,13 @@ SQL;
 
     switch ("$loantype") {
         case 'A':
-            if ($amount < (.50 * $salary)) {
-              //Then the loan can be made
-              $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
-              $monthly_I_str = number_format($monthly_I, 2);
-              echo '$monthly_I_str' . $monthly_I_str . '<br></br>';
-
-              echo '$monthly_I: ' . $monthly_I . '<br></br>';
-              echo '$L_Int' . $L_Int . '<br></br>';
-              $monthly_payment = (($amount / $loanterm) + $monthly_I);
-              $monthly_payment_str = number_format($monthly_payment, 2);
-              echo '$monthly_payment_str' . $monthly_payment_str . '<br></br>';
-
-              echo "A worked.";
-            }
+          $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+          $monthly_I_str = number_format($monthly_I, 2);
+          $monthly_payment = (($amount / $loanterm) + $monthly_I);
+          $monthly_payment_str = number_format($monthly_payment, 2);
+          if (!$monthly_payment <= (.50 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
+            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=50&monthly_payment=$monthly_payment&loantype=automobile");
+          }
             break;
         case 'H':
             if ($amount < (.027 * $salary)) {
@@ -239,18 +232,17 @@ SQL;
         $result = $dbh->query($math_sql);
 
         if ($result) {
-
-          header("Location: dashboard.php");
-
-        } else {
-          echo ("It didn't work. (loanapp) <br>");
-          var_dump($loantype == 'H');
+          // header("Location: dashboard.php");
           echo "Customer ID: " . $cust_id;
           echo "<br> Loan Type: " . $loantype;
           echo "<br> Amount: " . $amount;
           echo "<br> Monthly Payment: " . $monthly_payment;
           echo "<br> Loan Term: " . $loanterm;
           echo "<br> Interest Rate: " . $L_Int;
+          echo "<br> Salary: " . $salary;
+        } else {
+          echo ("It didn't work. (loanapp) <br>");
+          var_dump($loantype == 'H');
         //  echo "<br> Error: " . mysqli_error($dbh);
       //  }+
 
@@ -288,6 +280,5 @@ SQL;
   } else {
     echo mysqli_error($dbh);
   }
-}
 }
 ?>
