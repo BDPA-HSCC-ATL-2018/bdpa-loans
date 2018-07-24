@@ -8,106 +8,19 @@ if (!isset($_SESSION['customer_id'])) {
 }
 ?>
 
-<div class="col-md-9" style="float: left;">
+
+<div class="col-md-6">
+  <div class="-static-md-right">
   <a class="btn btn-primary mx-4" href="/bdpa-loans/forms/references.php">Add Reference</a>
   <a class="btn btn-primary" href="/bdpa-loans/forms/loanapp_f.php">Create Loan</a>
   <br>
   <br>
-  <div class='card-deck' style="float: left;">
-
-  <?php
-  global $dbh;
-    $email = $_SESSION['email'];
-    $cust_id = $_SESSION['customer_id'];
-    $sql = <<<SQL
-      SELECT * FROM loan_application WHERE customer_id = $cust_id;
-SQL;
-
-    $result = $dbh->query($sql);
-
-    if ($result->num_rows > 0) {
-      $new_row = 0;
-      while($row = $result->fetch_assoc()) {
-        if ($new_row % 4 == 0) {
-          echo "<div class='row'>";
-        }
-        switch ($row['loan_type_cd']) {
-          case 'A':
-      			$img_sql = <<<SQL
-      				select loan_type_image from loan_types where loan_type_cd = 'A';
-SQL;
-      			$img_result = $dbh->query($img_sql);
-      			$img_row = $img_result->fetch_assoc();
-      			$img = base64_encode($img_row['loan_type_image']);
-                  $row['loan_type_cd'] = "Automobile";
-                  break;
-          case 'H':
-      		  $img_sql = <<<SQL
-      				select loan_type_image from loan_types where loan_type_cd = 'H';
-SQL;
-      			$img_result = $dbh->query($img_sql);
-      			$img_row = $img_result->fetch_assoc();
-      			$img = base64_encode($img_row['loan_type_image']);
-                  $row['loan_type_cd'] = "House";
-                  break;
-          case 'M':
-      		  $img_sql = <<<SQL
-      				select loan_type_image from loan_types where loan_type_cd = 'M';
-SQL;
-      			$img_result = $dbh->query($img_sql);
-      			$img_row = $img_result->fetch_assoc();
-      			$img = base64_encode($img_row['loan_type_image']);
-                  $row['loan_type_cd'] = "Motorcycle";
-                  break;
-          case 'B':
-      		  $img_sql = <<<SQL
-      				select loan_type_image from loan_types where loan_type_cd = 'B';
-SQL;
-      			$img_result = $dbh->query($img_sql);
-      			$img_row = $img_result->fetch_assoc();
-      			$img = base64_encode($img_row['loan_type_image']);
-                  $row['loan_type_cd'] = "Boat";
-                  break;
-          case 'S':
-      		  $img_sql = <<<SQL
-      				select loan_type_image from loan_types where loan_type_cd = 'S';
-SQL;
-      			$img_result = $dbh->query($img_sql);
-      			$img_row = $img_result->fetch_assoc();
-      			$img = base64_encode($img_row['loan_type_image']);
-                  $row['loan_type_cd'] = "Student";
-                  break;
-          default:
-            $row['loan_type_cd'] = "Unidentified Loan";
-            break;
-        }
-        $echo_statement =
-        "
-        <div class='card my-4'>
-          <img src='data:image/jpeg;base64,$img' class='card-img-top' style='max-width:300px;'>
-          <div class='card-body'>" . $row['loan_type_cd'] . " Loan" ."<br>
-            Amount: $" . round($row['loan_amount'] , 2) . "<br>
-            Months to Pay: " . $row['loan_term_months']. "<br>
-            Monthly Payment: $" . round($row['monthly_payment'] , 2) . "<br>
-            Interest Rate: " . $row['interest_rate'] . "<br>
-          </div>
-        </div>
-        <br>";
-        echo $echo_statement;
-        if ($new_row % 4 == 3) {
-          echo "</div>";
-        }
-        $new_row++;
-      } //End of While Loop
-    } else {
-      echo "<div class='alert alert-info my-4'>You currently have no loans.</div>";
-    }
-
-  ?>
-  </div>
+  <div class='card-deck'>
+</div>
+</div>
 </div>
 
-<div class="col-md-3" style="float: right">
+<div class="col-lg-6 postion-static" >
   <div class="card">
     <div class="card-header">Personal Information</div>
     <div class="card-body">
@@ -135,7 +48,7 @@ SQL;
       ?></p>
     </div>
   </div>
-</div>
+  </div>
 <?php
     include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_footer.php';
 ?>
