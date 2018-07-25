@@ -131,7 +131,7 @@ SQL;
   ";
       echo $echo_statement;
       if ($new_row % 4 == 2) {
-        echo "</div>"
+        echo "</div>";
         echo "<div class='alert alert-info my-4'>You have loans</div>";
       }
       $new_row++;
