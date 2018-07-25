@@ -6,44 +6,6 @@
       header("Location: forms/signup.php");
     }
 ?>
-<html>
-<head>
-  <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-  <style >
-  body {
-padding-top: 54px;
-}
-
-@media (min-width: 992px) {
-body {
-  padding-top: 56px;
-}
-}
-
-.pagination {
-margin-bottom: 15px;
-}
-@media (min-width: 768px)
-.col-md-7 {
-    -ms-flex: 0 0 58.333333%;
-    flex: 0 0 58.333333%;
-    max-width: 58.333333%;
-}
-@media (min-width: 768px)
-.col-md-5 {
-    -ms-flex: 0 0 41.666667%;
-    flex: 0 0 41.666667%;
-    max-width: 41.666667%;
-}
-
-  </style>
-</head>
-<body>
-
 <?php
 global $dbh;
   $email = $_SESSION['email'];
@@ -144,5 +106,3 @@ SQL;
 <?php
     include_once $_SERVER['DOCUMENT_ROOT'] . '/bdpa-loans/web-assets/tpl/app_footer.php';
 ?>
-</body>
-</html>
