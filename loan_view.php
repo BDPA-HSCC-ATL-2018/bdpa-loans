@@ -75,10 +75,10 @@ SQL;
       $echo_statement =
       "
       <div class='row'>
-        <div class='col-md-7' style='width: 390px; height:263px'>
+        <div class='col-md-7' style='width: 700px; height:263px'>
           <img src='data:image/jpeg;base64,$img' class='img-fluid rounded mb-3 mb-md-0'>
         </div>
-        <div class='col-md-5' style='width: 270px; height: 263px;'>
+        <div class='col-md-5' style='width: 300px; height: 263px;'>
           <h3>" . $row['loan_type_cd'] . " Loan" ."</h3>
           <p>
           Amount: $" . round($row['loan_amount'] , 2) . "<br>
