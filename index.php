@@ -118,17 +118,19 @@ SQL;
     $cust_result = $dbh->query($cust_sql);
 
     if ($cust_result) {
-        while ($row = $cust_result->fetch_assoc()) {
-            $salary = $row['annual_income'];
-            $cust_id = $row['customer_id'];
-            $L_Term = $_REQUEST['loanlength'];
-        }
+      while ($row = $cust_result->fetch_assoc()) {
+        $salary = $row['annual_income'];
+        $cust_id = $row['customer_id'];
+        $L_Term = $_REQUEST['loanlength'];
+      }
+    }
 
     $loantype = $_REQUEST['loantype'];
     $amount = $_REQUEST['amount'];
     $loanterm = $_REQUEST['loanlength'];
-    $L_Int = 0;
-
+    $extended_warranty = $_REQUEST['extended_warranty'];
+    $payoff_insurance = $_REQUEST['payoff_insurance'];
+    $monthly_payment_insurance = $_REQUEST['monthly_payment_insurance'];
 
     $loan_interest_terms_sql = <<<SQL
       SELECT interest_rate FROM loan_interest_terms WHERE loan_type_cd = "$loantype" and loan_term_months = $loanterm;
@@ -144,7 +146,7 @@ SQL;
       echo mysqli_error($dbh);
     }
 
-    var_dump($loantype);
+    $run_sql = true;
 
     switch ("$loantype") {
         case 'A':
@@ -152,17 +154,20 @@ SQL;
           $monthly_I_str = number_format($monthly_I, 2);
           $monthly_payment = (($amount / $loanterm) + $monthly_I);
           $monthly_payment_str = number_format($monthly_payment, 2);
-          if (!$monthly_payment <= (.50 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
+          echo ("Monthly Payment: " . $monthly_payment . "<br>Salary: " . $salary);
+          if (!($monthly_payment <= (.50 * $salary))) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
             header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=50&monthly_payment=$monthly_payment&loantype=automobile");
+            $run_sql = false;
           }
         break;
         case 'H':
-          $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and adds 1 to it.
+          $monthly_I = $amount * (($L_Int / 100) / 12); //Converts the interest rate to a decimal and divides it by 12.
           $monthly_I_str = number_format($monthly_I, 2);
           $monthly_payment = (($amount / $loanterm) + $monthly_I);
           $monthly_payment_str = number_format($monthly_payment, 2);
-          if (!$monthly_payment <= (.027 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
-            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=027&monthly_payment=$monthly_payment&loantype=automobile");
+          if (!($monthly_payment <= (.027 * $salary))) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
+            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=2.7&monthly_payment=$monthly_payment&loantype=home");
+            $run_sql = false;
           }
         break;
         case 'B':
@@ -170,8 +175,9 @@ SQL;
           $monthly_I_str = number_format($monthly_I, 2);
           $monthly_payment = (($amount / $loanterm) + $monthly_I);
           $monthly_payment_str = number_format($monthly_payment, 2);
-          if (!$monthly_payment <= (.015 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
-            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=015&monthly_payment=$monthly_payment&loantype=automobile");
+          if (!($monthly_payment <= (.015 * $salary))) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
+            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=1.5&monthly_payment=$monthly_payment&loantype=boat");
+            $run_sql = false;
           }
         break;
         case 'M':
@@ -179,8 +185,9 @@ SQL;
           $monthly_I_str = number_format($monthly_I, 2);
           $monthly_payment = (($amount / $loanterm) + $monthly_I);
           $monthly_payment_str = number_format($monthly_payment, 2);
-          if (!$monthly_payment <= (.015 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
-            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=015&monthly_payment=$monthly_payment&loantype=automobile");
+          if (!($monthly_payment <= (.015 * $salary))) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
+            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=1.5&monthly_payment=$monthly_payment&loantype=motorcycle");
+            $run_sql = false;
           }
         break;
         case 'S':
@@ -188,35 +195,43 @@ SQL;
           $monthly_I_str = number_format($monthly_I, 2);
           $monthly_payment = (($amount / $loanterm) + $monthly_I);
           $monthly_payment_str = number_format($monthly_payment, 2);
-          if (!$monthly_payment <= (.15 * $salary)) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
-            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=15&monthly_payment=$monthly_payment&loantype=automobile");
+          if (!($monthly_payment <= (.15 * $salary))) { //If the monthly payment is greater than half of the salary, the loan cannot be made.
+            header("Location: forms/loanapp_f.php?alert=loantoobig&minrequirement=15&monthly_payment=$monthly_payment&loantype=student");
+            $run_sql = false;
           }
         break;
     }
 
-        echo '$L_Int: ' . $L_Int;
-        $math_sql = <<<SQL
-          INSERT INTO loan_application(customer_id, loan_type_cd, loan_amount, monthly_payment, loan_term_months, interest_rate)
-          VALUES($cust_id, "$loantype", $amount, $monthly_payment, $loanterm, $L_Int);
+    if ($run_sql) {
+      $math_sql = <<<SQL
+      INSERT INTO loan_application(customer_id, loan_type_cd, loan_amount, monthly_payment, loan_term_months, interest_rate, extended_warranty, payoff_insurance, monthly_payment_insurance)
+      VALUES($cust_id, "$loantype", $amount, $monthly_payment, $loanterm, $L_Int, "$extended_warranty", "$payoff_insurance", "$monthly_payment_insurance");
 SQL;
+      $result = $dbh->query($math_sql);
 
-        $result = $dbh->query($math_sql);
-
-        if ($result) {
-          // header("Location: dashboard.php");
-          echo "Customer ID: " . $cust_id;
-          echo "<br> Loan Type: " . $loantype;
-          echo "<br> Amount: " . $amount;
-          echo "<br> Monthly Payment: " . $monthly_payment;
-          echo "<br> Loan Term: " . $loanterm;
-          echo "<br> Interest Rate: " . $L_Int;
-          echo "<br> Salary: " . $salary;
-        } else {
-          echo ("It didn't work. (loanapp) <br>");
-          var_dump($loantype == 'H');
-        //  echo "<br> Error: " . mysqli_error($dbh);
-      //  }+
-
+      if ($result) {
+        echo "Customer ID: " . $cust_id;
+        echo "<br> Loan Type: " . $loantype;
+        echo "<br> Amount: " . $amount;
+        echo "<br> Monthly Payment: " . $monthly_payment;
+        echo "<br> Loan Term: " . $loanterm;
+        echo "<br> Interest Rate: " . $L_Int;
+        echo "<br> Salary: " . $salary;
+        echo "<br> Error: " . mysqli_error($dbh);
+        var_dump(!($monthly_payment <= (.15 * $salary)));
+        header("Location: dashboard.php");
+      } else {
+        echo ("It didn't work. (loanapp) <br>");
+        // var_dump($loantype == 'H');
+        echo "Customer ID: " . $cust_id;
+        echo "<br> Loan Type: " . $loantype;
+        echo "<br> Amount: " . $amount;
+        echo "<br> Monthly Payment: " . $monthly_payment;
+        echo "<br> Loan Term: " . $loanterm;
+        echo "<br> Interest Rate: " . $L_Int;
+        echo "<br> Salary: " . $salary;
+        echo "<br> Error: " . mysqli_error($dbh);
+      }
     }
 }
 
@@ -251,6 +266,5 @@ SQL;
   } else {
     echo mysqli_error($dbh);
   }
-}
 }
 ?>
