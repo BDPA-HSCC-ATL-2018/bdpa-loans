@@ -246,8 +246,8 @@ function editprofile() {
     $city = $_REQUEST['city'];
     $state = $_REQUEST['state'];
     $zip = $_REQUEST['zip'];
-    $telephone = $_REQUEST['telephone'];
-    $cellphone = $_REQUEST['cellphone'];
+    $pri_phone = $_REQUEST['telephone'];
+    $alt_phone = $_REQUEST['cellphone'];
     $company = $_REQUEST['company'];
     $cust_yr_salary = $_REQUEST['yearlysalary'];
     $customer_id = $_SESSION['customer_id'];
