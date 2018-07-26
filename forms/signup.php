@@ -76,7 +76,7 @@ if (isset($_SESSION['customer_id'])) {
                     </div>
                     <div class="form-group row">
                       <div class= "col-md-6">
-                        <button type="submit" class="btn btn-lg btn-primary">Login</button>
+                        <button type="submit" class="btn btn-lg btn-primary">Sign Up</button>
                       </div>
                     </div>
             </div>
