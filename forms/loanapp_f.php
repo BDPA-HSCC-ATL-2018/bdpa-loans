@@ -33,7 +33,7 @@ if (isset($_REQUEST['alert'])) {
     $minrequirement = $_REQUEST['minrequirement'];
     $monthly_payment = $_REQUEST['monthly_payment'];
     $salary_percentage = $annual_income * ($minrequirement / 100);
-    echo "<div class='alert alert-danger' role='alert'>The loan was too big to be accepted. Monthly $loantype loan payments cannot be greater than $minrequirement% of your salary. After calculations, the monthly payment was $monthly_payment, but $minrequirement% of your salary is $$salary_percentage.</div>";
+    echo "<div class='alert alert-danger' role='alert'>The loan was too big to be accepted. Monthly $loantype loan payments cannot be greater than $minrequirement% of your salary. After calculations, the monthly payment was $$monthly_payment, but $minrequirement% of your salary is $$salary_percentage.</div>";
     break;
   }
 }
@@ -87,41 +87,41 @@ function termloan() {
                       <div id="loanl"></div>
                     </div>
                     <br/>
+
                     <!-- Optional Add-ons for a loan -->
                     <!-- extended warranty -->
-
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <label class="input-group-text" for="loanaddon">Extended Warranty</label>
                       </div>
-                      <select class="custom-select" id="ew">
-                        <option selected>Choose</option>
-                        <option value="y">Yes</option>
-                        <option value="n">No</option>
+                      <select class="custom-select" id="ew" name="extended_warranty">
+                        <option value="N" selected>Choose</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
                       </select>
                     </div>
-                    <!-- payoff insurance -->
 
+                    <!-- payoff insurance -->
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <label class="input-group-text" for="loanaddon">Payoff Insurance</label>
                       </div>
-                      <select class="custom-select" id="pi">
-                        <option selected>Choose</option>
-                        <option value="y">Yes</option>
-                        <option value="n">No</option>
+                      <select class="custom-select" id="pi" name="payoff_insurance">
+                        <option value="N" selected >Choose</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
                       </select>
                     </div>
-                    <!-- Monthly Payment Insurance -->
 
+                    <!-- Monthly Payment Insurance -->
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <label class="input-group-text" for="loanaddon">Monthly Payment Insurance</label>
                       </div>
-                      <select class="custom-select" id="mi">
-                        <option selected>Choose</option>
-                        <option value="y">Yes</option>
-                        <option value="n">No</option>
+                      <select class="custom-select" id="mi" name="monthly_payment_insurance">
+                        <option value="N" selected>Choose</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
                       </select>
                     </div>
 
