@@ -9,6 +9,7 @@ $options = array (
     'login' => 'login',
     'loanapp' => 'loanapp',
     'references' => 'references',
+    'editprofile' => 'editprofile',
     'logout' => 'logout'
 );
 
@@ -235,12 +236,48 @@ SQL;
     }
 }
 
-//Logout
-function logout() {
-  session_unset();
-  session_destroy();
-  header("Location: forms/login.php");
+//Edit Profile
+function editprofile() {
+    global $dbh;
+    $email = $_REQUEST['email_id'];
+    $fname = $_REQUEST['fname'];
+    $lname = $_REQUEST['lname'];
+    $address = $_REQUEST['address'];
+    $city = $_REQUEST['city'];
+    $state = $_REQUEST['state'];
+    $zip = $_REQUEST['zip'];
+    $telephone = $_REQUEST['telephone'];
+    $cellphone = $_REQUEST['cellphone'];
+    $company = $_REQUEST['company'];
+    $cust_yr_salary = $_REQUEST['yearlysalary'];
+    $customer_id = $_SESSION['customer_id'];
+
+    $sql = <<<SQL
+    UPDATE customers
+    SET email_id = "$email", first_name = "$fname", last_name = "$lname", address_line_one = "$address", city_name = "$city", state_cd = "$state", postal_cd = "$zip", pri_phone = "$pri_phone", alt_phone = "$alt_phone", employer_name = "$company", annual_income = "$cust_yr_salary"
+    WHERE customer_id = $customer_id;
+SQL;
+
+    $result = $dbh->query($sql);
+
+    if ($result) {
+      $_SESSION['email'] = $email;
+
+      $customer_id_sql = <<<SQL
+      SELECT customer_id FROM customers WHERE email_id = "$email";
+SQL;
+      $customer_id_result = $dbh->query($customer_id_sql);
+
+      while ($customer_id_row = $customer_id_result->fetch_assoc()) {
+        $_SESSION['customer_id'] = $customer_id_row['customer_id'];
+      }
+
+      header("Location: dashboard.php");
+    } else {
+      mysqli_error($dbh);
+    }
 }
+
 
 //References
 function references() {
@@ -266,5 +303,12 @@ SQL;
   } else {
     echo mysqli_error($dbh);
   }
+}
+
+//Logout
+function logout() {
+  session_unset();
+  session_destroy();
+  header("Location: forms/login.php");
 }
 ?>
