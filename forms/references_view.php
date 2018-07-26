@@ -17,7 +17,7 @@ SQL;
         if ($ref_result) {
           while ($row = $ref_result->fetch_assoc()) {
             $ref_echo = "
-            <div class='card'>
+            <div class='card my-4'>
                 <div class='card-header'>Reference</div>
                 <div class='card-body'>
                   <p class='card-text font-weight-bold'>
@@ -27,7 +27,7 @@ SQL;
             State: " . $row['state_cd'] . "<br><br>
             Zip Code: " . $row['postal_cd'] . "<br><br>
             </div>
-          </div>  
+          </div>
             ";
             echo $ref_echo;
           }
