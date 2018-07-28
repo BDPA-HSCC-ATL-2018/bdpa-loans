@@ -28,7 +28,7 @@ SQL;
     if ($result->num_rows > 0) {
       $new_row = 0;
       while($row = $result->fetch_assoc()) {
-        if ($new_row % 4 == 0) {
+        if ($new_row % 3 == 0) {
           echo "<div class='row'>";
         }
 
@@ -96,7 +96,7 @@ SQL;
         </div>
         <br>";
         echo $echo_statement;
-        if ($new_row % 4 == 3) {
+        if ($new_row % 3 == 2) {
           echo "</div>";
         }
         $new_row++;
