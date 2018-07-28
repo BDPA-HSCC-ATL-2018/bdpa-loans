@@ -120,9 +120,9 @@ SQL;
 SQL;
         $personal_result = $dbh->query($personal_sql);
 
-        $new_row = 0;
         if ($personal_result) {
           while ($row = $personal_result->fetch_assoc()) {
+            
             $personal_echo = "
             Name: " . $row['first_name'] . " " . $row['last_name'] . "<br><br>
             Email: " . $row['email_id'] . "<br><br>
@@ -130,6 +130,7 @@ SQL;
             City: " . $row['city_name'] . "<br><br>
             State: " . $row['state_cd'] . "<br><br>
             Zip Code: " . $row['postal_cd'] . "<br><br>
+            Salary: " . number_format($row['annual_income'], 2) . "<br><br>
             ";
           }
           echo $personal_echo;
