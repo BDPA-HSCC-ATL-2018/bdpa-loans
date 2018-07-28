@@ -8,15 +8,15 @@ if (!isset($_SESSION['customer_id'])) {
 }
 ?>
 
-<div class="col-md-9" style="float: left;">
+<div>
   <a class="btn btn-primary mx-4" href="/bdpa-loans/forms/references.php">Add Reference</a>
   <a class="btn btn-primary" href="/bdpa-loans/forms/loanapp_f.php">Create Loan</a>
   <br>
   <br>
-  <div class='card-deck' style="float: left;">
+  <div class="card-deck col-md-8" style="float: left;">
 
   <?php
-  global $dbh;
+    global $dbh;
     $email = $_SESSION['email'];
     $cust_id = $_SESSION['customer_id'];
     $sql = <<<SQL
@@ -109,7 +109,7 @@ SQL;
   </div>
 </div>
 
-<div class="col-md-3" style="float: right">
+<div class="col-md-4" style="float: right">
   <div class="card">
     <div class="card-header">Personal Information <a href="/bdpa-loans/forms/edit_profile.php" class="btn btn-primary" style="float: right;">Edit</a></div>
     <div class="card-body">
@@ -122,7 +122,7 @@ SQL;
 
         if ($personal_result) {
           while ($row = $personal_result->fetch_assoc()) {
-            
+
             $personal_echo = "
             Name: " . $row['first_name'] . " " . $row['last_name'] . "<br><br>
             Email: " . $row['email_id'] . "<br><br>
